@@ -1,0 +1,2 @@
+ocr_model/*.dll filter=lfs diff=lfs merge=lfs -text
+ocr_model/Tesseract-OCR/*.dll filter=lfs diff=lfs merge=lfs -text
