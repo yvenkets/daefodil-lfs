@@ -1,0 +1,50 @@
+{% extends 'userdashboard.html' %}
+{% load static %}
+
+{% block content %}
+<main
+class="main-container"
+>
+<form action="" method="POST" >
+{% csrf_token %}
+<div class="form main_container">
+  <h1>Edit Category </h1>
+  <div class="form_container w100">
+    <div class="input_container">
+      <label for="firstname" class="form_label"
+        >Category Name</label
+      >
+      <select
+        class="form_control"
+        id="firstname" name="catname" required
+      >
+      <option>{{cat.dlm_doctype_nam}}</option>
+      <option value="All" id="1">All</option>
+      <option value="Bank Statement" id="2">Bank Statement</option>
+      <option value="Invoice" id="3">Invoice</option>
+      <option value="Purchase Order" id="4">Purchase Order</option>
+      </select>
+    </div>
+    <div class="input_container">
+      <label for="lastname" class="form_label"
+        >Category Group</label
+      >
+      <select
+        class="form_control"
+        id="lastname" name="catgrp" required
+      >
+      <option >{{cat.dlm_doctype_catgrp}}</option> 
+      <option value="All" >All</option>
+      <option value="A" >A</option>
+      <option value="B" >B</option>
+      <option value="C" >C</option>
+      </select>
+    </div>
+    
+    <button class="btn w100" type="submit">Update</button>
+  </div>
+</div>
+</form>
+</main>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'userdashboard.html' %}
+{% load static %}
+
+{% block content %}
+<div class="title-button">
+    <div><h3>DOCUMENT PRICE DETAILS</h3></div>
+    <div>
+        <button class="upload_btn"><a href="{% url 'addprice' %}" style="text-decoration:none;color:white">Add Price</a></button>
+    </div>
+  </div>
+  <div class="tabBox">
+    
+
+    <div class="tabContainer">
+      <div id="tab1" class="tabContent">
+        
+        <div class="table_container" style="overflow-x: auto;">
+          <table id="myTable" style="border-collapse: collapse">
+            <thead class="table-header">
+              <tr class="table-row">
+                
+                <th class="table-head">S.NO</th>
+                <th class="table-head">Plan Id</th>
+                <th class="table-head">Validity Type</th>
+                <th class="table-head">Price</th>
+                <th class="table-head">Created Date</th>
+                <th class="table-head">Created By</th>
+                <th class="table-head">Action</th>
+               
+              </tr>
+            </thead>
+            <tbody class="table-body">
+              {% for price in prices %}
+
+                <tr class="table-row">
+                  <td class="table-data">{{price.iddlm_price }}</td>
+                  <td class="table-data">{{price.dlm_price_planid}}</td>
+                  <td class="table-data">{{price.dlm_price_valtype}}</td>
+                  <td class="table-data">{{price.dlm_price_amt}}</td>
+                  <td class="table-data">{{price.dlm_price_cdate}}</td>
+                  <td class="table-data">{{price.dlm_price_cby}}</td>
+                  <td class="table-data" style="display: flex"><div class="status2" ><a  href="/editprice/{{ price.iddlm_price }}">Edit</a></div><div class="status3"><a  href="/deleteprice/{{price.iddlm_price}}">Delete</a></div></td>
+                          
+                </tr>
+              {% endfor %}
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      
+    </div>
+  </div>
+
+{% endblock %}

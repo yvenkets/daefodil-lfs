@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% load static %}
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    
+    <link rel="stylesheet"
+    href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+    {% comment %} new added {% endcomment %}
+    <link rel="stylesheet" href="{% static 'example-styles.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'upload.css' %}" type="text/css">
+    
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.js"></script>
+    <script class="u-script" type="text/javascript" src="{% static 'jquery-2.2.4.min.js' %}" defer=""></script>
+    <script class="u-script" type="text/javascript" src="{% static 'jquery.multi-select.js' %}" defer=""></script>
+    <script class="u-script" type="text/javascript" src="{% static 'jquery.multi-select.js' %}" defer=""></script>
+
+   
+    <title>Dashboard</title>
+    
+    <link rel="stylesheet" href="{% static 'dashboard.css' %}"  type="text/css" />
+
+    {% comment %} preview page {% endcomment %}
+    
+    
+  </head>
+  <body onload="loadPage(); testing();">
+    <nav class="sidebar">
+      <header>
+        <div class="image-text">
+          <span class="image">
+            <img src="{% static './Assets/daflogo.svg' %}" alt="logo" />
+          </span>
+           <div class="text header-text">
+            <span class="name"><img src="{% static './Assets/name2.svg' %}" alt="logo" /></span>
+          </div> 
+        </div>
+        <img class="toggle expand" alt="toggle" />
+      </header>
+      <div class="menu-bar">
+        <div class="menu">
+          <ul class="menu-link" id="myList">
+            {% if user_mapped == "existing-user" %}
+            <li class="nav-link" id="userdetails">
+              <a href="{% url 'userdetails' %}"  class="">
+                <div class="icon">
+                  <img src="{% static './Assets/category.svg' %}" alt="" />
+                </div>
+                <span class="text nav-text">My documents</span>
+              </a>
+            </li> 
+            {% elif user_mapped == "new-user" %} 
+            <li class="nav-link" id="userdetails">
+              <a href="{% url 'newuser' %}"  class="">
+                <div class="icon">
+                  <img src="{% static './Assets/category.svg' %}" alt="" />
+                </div>
+                <span class="text nav-text">My documents</span>
+              </a>
+            </li>
+            {% endif %}  
+            <li class="nav-link"  id="uploadpage">
+              <a href="{% url 'uploadpage' %}" class="uploadpage">
+                <div class="icon">
+                  <img src="{% static './Assets/document-copy.svg' %}" alt="" />
+                </div>
+                <span class="text nav-text">New documents</span>
+              </a>
+            </li>
+            
+            <li class="nav-link">
+              <a href="#" >
+                <div class="icon">
+                  <img src="{% static './Assets/user-octagon.svg'%}" alt="" />
+                </div>
+                <span class="text nav-text">Member</span>
+              </a>
+            </li>
+            <li class="nav-link" >
+              <a href="#">
+                <div class="icon">
+                  <img src="{% static './Assets/message-programming.svg'%}" alt="" />
+                </div>
+                <span class="text nav-text">API & Integrations</span>
+              </a>
+            </li>
+            <li class="nav-link">
+              <a href="#">
+                <div class="icon">
+                  <img src="{% static './Assets/archive-book.svg'%}" alt="" />
+                </div>
+                <span class="text nav-text">Billing</span>
+              </a>
+            </li>
+            <svg
+              width="228"
+              height="2"
+              viewBox="0 0 228 2"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                opacity="0.6"
+                d="M0 1H228"
+                stroke="white"
+                stroke-dasharray="3 3"
+              />
+            </svg>
+            <li class="nav-link">
+              <a href="#">
+                <div class="icon">
+                  <img src="{% static './Assets/clipboard-text.svg'%}" alt="" />
+                </div>
+                <span class="text nav-text">Documentation</span>
+              </a>
+            </li>
+            {% comment %} <li class="nav-link" >
+              <a href="#" id="1" class="member">
+                <div class="icon">
+                  <img src="{% static './Assets/setting-2.svg' %}" alt="" />
+                </div>
+                <span class="text nav-text">Settings</span>
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M7.41289 11.3815L11.0199 14.9885C11.563 15.5316 12.4404 15.5316 12.9835 14.9885L16.5905 11.3815C17.4679 10.5041 16.8412 9 15.6017 9H8.38776C7.14829 9 6.53552 10.5041 7.41289 11.3815Z"
+                    fill="white"
+                  />
+                </svg>
+              </a>
+              <div class="item-show-1">
+                <a href="{% url 'usertable' %}" id="usertable">
+                  
+                  <span class="text nav-text">Add User</span></a
+                >
+                <a href="{% url 'clienttable' %}" >
+                  
+                  <span class="text nav-text">Add Client</span></a
+                >
+                <a href="{% url 'categorytable' %}" >
+                  
+                  <span class="text nav-text">Category Details</span></a
+                >
+                <a href="{% url 'plantable' %}" >
+                  
+                  <span class="text nav-text">Plan Details</span></a
+                >
+                <a href="{% url 'pricetable' %}">
+                  
+                  <span class="text nav-text">Price Details</span></a
+                >
+                <a href="{% url 'featuretable' %}" >
+                  
+                  <span class="text nav-text">Feature Details</span></a
+                >
+                <a href="{% url 'setnewpassword' %}" >
+                  
+                  <span class="text nav-text">Set New Password</span></a
+                >
+               
+              </div>
+            </li> {% endcomment %}
+            <li class="nav-link parentDiv" >
+              <a href="#" id="1" class="member">
+                <div class="icon">
+                  <img src="{% static './Assets/setting-2.svg' %}" alt="" />
+                </div>
+                <span class="text nav-text" id="toggle-test" onclick="test()">Settings  </span>
+                <span id="value-test"></span>
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M7.41289 11.3815L11.0199 14.9885C11.563 15.5316 12.4404 15.5316 12.9835 14.9885L16.5905 11.3815C17.4679 10.5041 16.8412 9 15.6017 9H8.38776C7.14829 9 6.53552 10.5041 7.41289 11.3815Z"
+                    fill="white"
+                  />
+                </svg>
+              </a>
+              <div class="item-show-1">
+                
+                <ul>
+                  {% if usertype == "Super Admin" %}
+                  <li class="nav-link">
+                    <a href="{% url 'categorytable' %}">
+                      
+                      <span class="text nav-text">Category Details</span></a>
+                    
+                  </li>
+                  <li class="nav-link">
+                    <a href="{% url 'plantable' %}" >
+                  
+                      <span class="text nav-text">Plan Details</span></a>
+                    
+                  </li>
+                  <li class="nav-link">
+                    <a href="{% url 'pricetable' %}">
+                  
+                      <span class="text nav-text">Price Details</span></a>
+                    
+                  </li>
+                  <li class="nav-link">
+                    <a href="{% url 'featuretable' %}" >
+                      
+                      <span class="text nav-text">Feature Details</span></a>
+                    
+                  </li>
+                  <li class="nav-link">
+                    <a href="{% url 'tenanttable' %}" >
+                      
+                      <span class="text nav-text">Tenant Details</span></a>
+                    
+                  </li>
+                  <li class="nav-link">
+                    <a href="{% url 'clientsTable' %}" >
+                      
+                      <span class="text nav-text">Client Details</span></a>
+                    
+                  </li>
+                  
+                  {% elif usertype == "App Admin-Work" %}
+                  <li class="nav-link">
+                    <a href="{% url 'usertable' %}" >
+                      
+                      <span class="text nav-text">Add User</span></a>
+                    
+                  </li>
+                  <li class="nav-link">
+                    <a href="{% url 'clienttable' %}" >
+                  
+                      <span class="text nav-text">Add Client</span></a>
+                    
+                  </li>
+                  <li class="nav-link">
+                    <a href="{% url 'newpassword' %}">
+                  
+                      <span class="text nav-text">Change Password</span></a>
+                    
+                  </li>
+                  <li class="nav-link">
+                    <a href="{% url 'deleteaccount' %}" >
+                      
+                      <span class="text nav-text">Delete Account</span></a>
+                    
+                  </li>
+                  
+                  
+                  {% elif usertype == "App Admin-Personal" %}
+                  <li class="nav-link">
+                    <a href="{% url 'newpassword' %}">
+                  
+                      <span class="text nav-text">Change Password</span></a>
+                    
+                  </li>
+                  <li class="nav-link">
+                    <a href="#" >
+                      
+                      <span class="text nav-text">Delete Account</span></a>
+                    
+                  </li>
+                  
+                  
+                  {% endif %}
+                </ul>
+              </div>
+            </li>
+            <li class="nav-link">
+              <a href="{% url 'subscribe' %}">
+                <div class="icon">
+                  <img src="{% static './Assets/dashboard.svg'%}" alt="" />
+                </div>
+                <span class="text nav-text">Subscribe</span>
+              </a>
+            </li>
+            <li class="nav-link">
+              <a href="#">
+                <div class="icon">
+                  <img src="{% static './Assets/dashboard.svg'%}" alt="" />
+                </div>
+                <span class="text nav-text">Help</span>
+              </a>
+            </li>
+            <li class="nav-link">
+              <a href="#">
+                <div class="icon">
+                  <img src="{% static './Assets/24-support.svg'%}" alt="" />
+                </div>
+                <span class="text nav-text">Support requests</span>
+              </a>
+            </li>
+            <li class="nav-link">
+              <a href="{% url 'logout' %}" type="submit">
+                <div class="icon">
+                  <img src="{% static './Assets/logout.svg'%}" alt="" />
+                </div>
+                <span class="text nav-text">Logout</span>
+              </a>
+            </li>
+          </ul>
+          <!-- <ul></ul> -->
+        </div>
+      </div>
+    </nav>
+    <section class="home">
+      <nav class="mobile-nav">
+        <div>
+          <div class="mobile-logo">
+            <span class="image">
+              <img src="{% static './Assets/logo.svg'%}" alt="logo" />
+            </span>
+            <div class="text header-text">
+              <span class="name">Daefodil</span>
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center">
+          <img src="{% static './Assets/notifications.svg'%}" alt="" />
+          <div class="profile">
+            <img src="{% static './Assets/profile.svg'%}" alt="profile" /> 
+            
+            <div>
+              <h6>{{username}}</h6>
+              <p>Free plan</p>
+            </div>
+          </div>
+          <i class="fa-solid fa-bars menu-icon" onclick="openNav()"></i>
+        </div>
+      </nav>
+      <div class="mobile-sidebar" id="mob-sidebar">
+        <div class="menu-bar">
+          <div class="menu">
+            <ul class="menu-link">
+              <li class="nav-link">
+                <a href="{% url 'userdetails' %}">
+                  <div class="icon">
+                    <img src="{% static './Assets/category.svg'%}" alt="" />
+                  </div>
+                  <span class="text nav-text">My documents</span>
+                </a>
+              </li>
+              <li class="nav-link">
+                <a href="{% url 'plantable' %}">
+                  <div class="icon">
+                    <img src="{% static './Assets/document-copy.svg'%}" alt="" />
+                  </div>
+                  <span class="text nav-text">New documents</span>
+                </a>
+              </li>
+              <li class="nav-link">
+                <a href="#" id="1">
+                  <div class="icon">
+                    <img src="{% static './Assets/user-octagon.svg'%}" alt="" />
+                  </div>
+                  <span class="text nav-text">Member</span>
+                </a>
+                <ul class="item-show-1">
+                  <li><a href="#">Option 1</a></li>
+                  <li><a href="#">Option 2</a></li>
+                </ul>
+              </li>
+              <li class="nav-link">
+                <a href="#">
+                  <div class="icon">
+                    <img src="{% static './Assets/message-programming.svg'%}" alt="" />
+                  </div>
+                  <span class="text nav-text">API & Integrations</span>
+                </a>
+              </li>
+              <li class="nav-link">
+                <a href="#">
+                  <div class="icon">
+                    <img src="{% static './Assets/archive-book.svg'%}" alt="" />
+                  </div>
+                  <span class="text nav-text">Billing</span>
+                </a>
+              </li>
+              <li class="nav-link">
+                <svg
+                  width="228"
+                  height="2"
+                  viewBox="0 0 228 2"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    opacity="0.6"
+                    d="M0 1H228"
+                    stroke="white"
+                    stroke-dasharray="3 3"
+                  />
+                </svg>
+              </li>
+              <li class="nav-link">
+                <a href="#">
+                  <div class="icon">
+                    <img src="{% static './Assets/clipboard-text.svg'%}" alt="" />
+                  </div>
+                  <span class="text nav-text">Documentation</span>
+                </a>
+              </li>
+              <li class="nav-link">
+                <a href="#">
+                  <div class="icon">
+                    <img src="{% static './Assets/setting-2.svg'%}" alt="" />
+                  </div>
+                  <span class="text nav-text">Settings</span>
+                </a>
+              </li>
+              <li class="nav-link">
+                <a href="#">
+                  <div class="icon">
+                    <img src="{% static './Assets/dashboard.svg'%}" alt="" />
+                  </div>
+                  <span class="text nav-text">Help</span>
+                </a>
+              </li>
+              <li class="nav-link">
+                <a href="#">
+                  <div class="icon">
+                    <img src="{% static './Assets/24-support.svg'%}" alt="" />
+                  </div>
+                  <span class="text nav-text">Support requests</span>
+                </a>
+              </li>
+            </ul>
+            <ul></ul>
+          </div>
+        </div>
+      </div>
+      <div class="main_content">
+        {% block content %}
+        
+        {% endblock content %} 
+      </div>
+    </section>
+    <script src="{% static 'index.js' %}"></script>
+
+  </body>
+</html>

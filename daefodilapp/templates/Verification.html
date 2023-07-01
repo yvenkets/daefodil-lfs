@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+          rel="stylesheet" />
+    {% load static %}
+    <link rel="stylesheet" href="{%static '/style.css' %}" type="text/css" />
+    <title>Verification</title>
+</head>
+  <body class="confirm_email">
+    <header class="d-flex align-items-center">
+      <span class="image">
+        <img src="{% static './Assets/Abaxlogo2.svg' %}" alt="logo" />
+      </span>
+    </header>
+    <main class="d-flex justify-content-center align-items-center">
+      <div class="confirm_email_container text-center">
+        <svg
+          width="71"
+          height="71"
+          viewBox="0 0 71 71"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M59.2629 59.1519H11.7373C9.2373 59.149 6.84053 58.1545 5.07275 56.3868C3.30498 54.619 2.31055 52.2222 2.30762 49.7222V21.2778C2.31055 18.7778 3.30498 16.3811 5.07275 14.6133C6.84053 12.8455 9.2373 11.8511 11.7373 11.8481H59.2629C61.7629 11.8511 64.1597 12.8455 65.9275 14.6133C67.6953 16.3811 68.6897 18.7778 68.6926 21.2778V49.7222C68.6897 52.2222 67.6953 54.619 65.9275 56.3868C64.1597 58.1545 61.7629 59.149 59.2629 59.1519ZM11.7373 15.1763C10.1191 15.1763 8.56711 15.8191 7.42285 16.9634C6.27858 18.1076 5.63574 19.6596 5.63574 21.2778V49.7222C5.63574 51.3404 6.27858 52.8924 7.42285 54.0367C8.56711 55.1809 10.1191 55.8238 11.7373 55.8238H59.2629C60.8812 55.8238 62.4331 55.1809 63.5774 54.0367C64.7217 52.8924 65.3645 51.3404 65.3645 49.7222V21.2778C65.3645 19.6596 64.7217 18.1076 63.5774 16.9634C62.4331 15.8191 60.8812 15.1763 59.2629 15.1763H11.7373Z"
+            fill="#1578FD"
+          />
+          <path
+            d="M35.4999 42.245C33.4471 42.2482 31.4491 41.5822 29.8088 40.3479L3.90489 20.7564C3.72187 20.6279 3.56661 20.4639 3.44839 20.2741C3.33017 20.0843 3.25141 19.8726 3.21681 19.6517C3.18222 19.4308 3.1925 19.2052 3.24704 18.9884C3.30159 18.7715 3.39927 18.5679 3.53427 18.3896C3.66926 18.2114 3.83879 18.0622 4.03274 17.9509C4.22669 17.8396 4.44107 17.7686 4.66309 17.742C4.8851 17.7154 5.1102 17.7339 5.32492 17.7962C5.53965 17.8586 5.73961 17.9636 5.91286 18.105L31.8168 37.7187C32.8805 38.5128 34.1724 38.9418 35.4999 38.9418C36.8273 38.9418 38.1193 38.5128 39.183 37.7187L65.0869 18.105C65.2602 17.9636 65.4601 17.8586 65.6749 17.7962C65.8896 17.7339 66.1147 17.7154 66.3367 17.742C66.5587 17.7686 66.7731 17.8396 66.967 17.9509C67.161 18.0622 67.3305 18.2114 67.4655 18.3896C67.6005 18.5679 67.6982 18.7715 67.7527 18.9884C67.8073 19.2052 67.8176 19.4308 67.783 19.6517C67.7484 19.8726 67.6696 20.0843 67.5514 20.2741C67.4332 20.4639 67.2779 20.6279 67.0949 20.7564L41.191 40.3479C39.5507 41.5822 37.5527 42.2482 35.4999 42.245Z"
+            fill="#1578FD"
+          />
+          <path
+            d="M4.62598 54.5147C4.28848 54.5152 3.9588 54.4131 3.6807 54.2218C3.4026 54.0306 3.18922 53.7593 3.06887 53.444C2.94852 53.1287 2.92689 52.7843 3.00686 52.4564C3.08682 52.1285 3.2646 51.8326 3.51661 51.6081L23.9291 33.4033C24.2586 33.1091 24.6916 32.9578 25.1326 32.9828C25.5737 33.0077 25.9868 33.2069 26.281 33.5364C26.5752 33.8659 26.7265 34.2989 26.7015 34.7399C26.6765 35.181 26.4774 35.5941 26.1479 35.8883L5.73536 54.0931C5.43222 54.3689 5.03579 54.5196 4.62598 54.5147ZM66.3738 54.5147C65.964 54.5196 65.5676 54.3689 65.2644 54.0931L44.8519 35.8883C44.5224 35.5941 44.3232 35.181 44.2983 34.7399C44.2733 34.2989 44.4246 33.8659 44.7188 33.5364C45.013 33.2069 45.4261 33.0077 45.8672 32.9828C46.3082 32.9578 46.7411 33.1091 47.0707 33.4033L67.4721 51.6081C67.7241 51.8326 67.9019 52.1285 67.9818 52.4564C68.0618 52.7843 68.0402 53.1287 67.9198 53.444C67.7995 53.7593 67.5861 54.0306 67.308 54.2218C67.0299 54.4131 66.7002 54.5152 66.3627 54.5147H66.3738Z"
+            fill="#1578FD"
+          />
+        </svg>
+        <h4>E-mail verification</h4>
+        <p>
+          We’ve e-mailed you a 6 digit code. Please check your e-mail and enter
+          the code here to complete the verification.
+        </p>
+
+        <form method="POST"
+              class="digit-group"
+              data-group-name="digits"
+              data-autosubmit="false"
+              autocomplete="off">
+            {%csrf_token%}
+            <input type="text" maxlength="1" id="digit-1" name="digit-1" data-next="digit-2" onkeyup="fn(this,'digit-2')" />
+            <input type="text" maxlength="1"
+                   id="digit-2"
+                   name="digit-2"
+                   data-next="digit-3"
+                   data-previous="digit-1" onkeyup="fn(this,'digit-3')" />
+            <input type="text" maxlength="1"
+                   id="digit-3"
+                   name="digit-3"
+                   data-next="digit-4"
+                   data-previous="digit-2" onkeyup="fn(this,'digit-4')" />
+            <input type="text" maxlength="1"
+                   id="digit-4"
+                   name="digit-4"
+                   data-next="digit-5"
+                   data-previous="digit-3" onkeyup="fn(this,'digit-5')" />
+            <input type="text" maxlength="1"
+                   id="digit-5"
+                   name="digit-5"
+                   data-next="digit-6"
+                   data-previous="digit-4"  onkeyup="fn(this,'digit-6')"/>
+            <input type="text" maxlength="1"
+                   id="digit-6"
+                   name="digit-6"
+                   data-previous="digit-5" />
+           <br /> <span style=" color:red;font-size:10px;margin-left:10px">{%for x in messages%}*{{x}}{%endfor%}</span>
+            <button class="btn btn-primary w-100" name="verify" type="submit">Verify OTP</button>
+            <h6>
+                Didn’t receive the OTP?
+                <button type="submit"  name="resend" style="border: none; background: none; font-weight: 500; font-size: 15px;"> Resend</button>
+            </h6>
+
+        </form>
+        <center><div id="ten-countdown"></div></center>
+    <script language="javascript">
+function countdown( elementName, minutes, seconds )
+{
+    var element, endTime, hours, mins, msLeft, time;
+
+    function twoDigits( n )
+    {
+        return (n <= 9 ? "0" + n : n);
+    }
+
+    function updateTimer()
+    {
+        msLeft = endTime - (+new Date);
+        if ( msLeft < 1000 ) {
+            element.innerHTML = "Time is up!";
+			document.getElementById('button').disabled=true;
+			document.getElementById('button1').disabled=false;
+   
+        } else {
+            time = new Date( msLeft );
+            hours = time.getUTCHours();
+            mins = time.getUTCMinutes();
+            element.innerHTML = (hours ? hours + ':' + twoDigits( mins ) : mins) + ':' + twoDigits( time.getUTCSeconds() );
+            setTimeout( updateTimer, time.getUTCMilliseconds() + 500 );
+        }
+    }
+
+    element = document.getElementById( elementName );
+    endTime = (+new Date) + 1000 * (60*minutes + seconds) + 500;
+    updateTimer();
+}
+
+countdown( "ten-countdown", 1, 0 );
+    </script>
+</center>
+        <script>
+            function fn(froo, too){
+                var len = froo.value.length;
+                var mx = froo.getAttribute("maxlength");
+                if (len == mx) { document.getElementById(too).focus();}
+            }
+        </script>
+          
+        
+      </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

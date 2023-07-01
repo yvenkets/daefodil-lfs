@@ -1,0 +1,48 @@
+{% extends 'userdashboard.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="title-button">
+    <div><h3>TENANT DETAILS</h3></div>
+    
+  </div>
+  <div class="tabBox">
+    
+
+    <div class="tabContainer">
+      <div id="tab1" class="tabContent">
+        
+        <div class="table_container" style="overflow-x: auto;">
+          <table id="myTable" style="border-collapse: collapse">
+            <thead class="table-header">
+              <tr class="table-row">
+                
+                <th class="table-head">Tenant Name</th>
+                <th class="table-head">Tenant Status</th>
+                <th class="table-head">Created Date</th>
+                <th class="table-head">Category</th>
+                <th class="table-head">Action</th>
+              </tr>
+            </thead>
+            <tbody class="table-body">
+                <tr class="table-row">
+                  
+                  {% for i in tenant %}
+                     
+                      <tr>
+                          <td class="table-data">{{i.dlm_tenant_nam }}</td>
+                          <td class="table-data">{{i.dlm_tenant_sts }}</td>
+                          <td class="table-data">{{i.dlm_tenant_cdate }}</td>
+                          <td class="table-data">{{i.dlm_tenant_cat }}</td>
+                          <td class="table-data" style="display: flex">
+                            {% if i.dlm_tenant_sts == 'Active' %}
+                          <div class="Click-here"><a href="/disabletenant/{{ i.iddlm_tenant }}" id="disableLink_{{ i.iddlm_tenant }}" style="text-decoration: none;color: #9A3412;">Disable</a></div>
+                            {% else %}
+                            <div class="Click-here"><a href="/Activatetenant/{{ i.iddlm_tenant }}" id="disableLink_{{ i.iddlm_tenant }}" style="text-decoration: none;color: #9A3412;">Activate</a></div>
+                            {% endif %}
+                          </td>
+                        </tr>
+                        {% endfor %}
+                </tr>
+                {% endblock %}

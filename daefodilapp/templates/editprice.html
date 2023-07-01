@@ -1,0 +1,58 @@
+{% extends 'userdashboard.html' %}
+{% load static %}
+
+{% block content %}
+
+<main
+class="main-container"
+>
+<form method="POST">
+  {%csrf_token%}
+<div class="form main_container">
+  <h1>Edit Price</h1>
+  <div class="form_container w100">
+    <div class="input_container">
+      <label for="firstname" class="form_label"
+        >Your Registered Plan Name</label
+      >
+      <select
+        class="form_control"
+        id="firstname"
+        placeholder="Plan Name" name="plcatgroup" required
+      >
+      <option>{{plnam}}</option>
+      {% for x in catgroup %}
+        <option>{{x.dlm_plan_nam}}</option>
+      {% endfor %}
+      </select>
+      
+    </div>
+    <div class="input_container">
+      <label for="lastname" class="form_label"
+        >Validity Type</label
+      >
+      <input type="text"
+        class="form_control"
+        id="lastname"
+        placeholder="Validity Type" name="valtype" value="{{prices.dlm_price_valtype}}" required
+      />
+    </div>
+    <div class="input_container">
+      <label for="lastname" class="form_label"
+        >Price</label
+      >
+      <input type="text"
+        class="form_control"
+        id="lastname"
+        placeholder="Price" name="amt" value="{{prices.dlm_price_amt}}" required
+      />
+    </div>
+    
+    <button class="btn w100" type="submit">Submit</button>
+  </div>
+</div>
+</form>
+</main>
+
+
+{% endblock %}

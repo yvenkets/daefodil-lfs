@@ -1,0 +1,64 @@
+{% extends 'userdashboard.html' %}
+{% load static %}
+
+{% block content %}
+
+            <main class="main-container">
+              <form action="" method="POST" >
+                <!-- <label for="tname">Client Name:</label> -->
+                {%csrf_token%}
+                <div class="form main_container">
+                  <h1>Add User</h1>
+                  <div class="form_container w100">
+                    
+                    <div class="input_container">
+                      <label for="lastname" class="form_label"
+                        >Client Name</label
+                      >
+                      <select
+                        class="form_control"
+                        id="lastname"
+                        placeholder="Feature Name" name="cname" required
+                      >
+                      <option value="select" selected>--select--</option>
+                      {% for x in client %}
+                            {% if x.dlm_cust_tntid == tntid %}
+                                <option>{{ x.dlm_cust_nam }}</option>
+                            {% endif %}
+                      {% endfor %}
+                      </select>
+                    </div>
+                    <div class="input_container">
+                      <label for="lastname" class="form_label"
+                        >User Name</label
+                      >
+                      <input type="email"
+                        class="form_control"
+                        id="lastname"
+                        placeholder="User Name" name="uname" required
+                      />
+                    </div>
+                    {% if messages %}
+                        <ul class="messages-list" style="color:red">
+                            {% for message in messages %}
+                            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <button class="btn w100" type="submit">Submit</button>
+                  </div>
+
+                </div>
+              </form>
+              
+            </main>
+      
+          
+        
+      
+    
+  
+
+
+
+{% endblock %}

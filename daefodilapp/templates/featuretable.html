@@ -1,0 +1,52 @@
+{% extends 'userdashboard.html' %}
+{% load static %}
+
+{% block content %}
+<div class="title-button">
+    <div><h3>DOCUMENT FEATURE DETAILS</h3></div>
+    <div>
+        <button class="upload_btn"><a href="{% url 'addfeature' %}" style="text-decoration:none;color:white">Add Feature</a></button>
+    </div>
+  </div>
+  <div class="tabBox">
+    
+
+    <div class="tabContainer">
+      <div id="tab1" class="tabContent">
+        
+        <div class="table_container" style="overflow-x: auto;">
+          <table id="myTable" style="border-collapse: collapse">
+            <thead class="table-header">
+              <tr class="table-row">
+                
+                <th class="table-head">S.NO</th>
+                <th class="table-head">Feature Name</th>
+                <th class="table-head">Feature Description</th>
+                <th class="table-head">Created Date</th>
+                <th class="table-head">Created By</th>
+                <th class="table-head">Action</th>
+               
+              </tr>
+            </thead>
+            <tbody class="table-body">
+              {% for i in feature %}
+                <tr class="table-row">
+                    <td class="table-data">{{i.iddlm_feature }}</td>
+                    <td class="table-data">{{i.dlm_feature_name}}</td>
+                    <td class="table-data">{{i.dlm_feature_desc}}</td>
+                    <td class="table-data">{{i.dlm_feature_cdate}}</td>
+                    <td class="table-data">{{i.dlm_feature_cby}}</td>
+                    <td class="table-data" style="display: flex"><div class="status2" ><a  href="/editfeature/{{i.iddlm_feature}}">Edit</a></div><div class="status3"><a  href="/deletefeature/{{i.iddlm_feature}}">Delete</a></div></td>
+                </tr>
+              {% endfor %}
+              
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      
+    </div>
+  </div>
+{% endblock %}

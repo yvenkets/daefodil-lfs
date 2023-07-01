@@ -1,0 +1,60 @@
+{% extends 'userdashboard.html' %}
+{% load static %}
+
+{% block content %}
+<main
+class="main-container"
+>
+  <form action="" method="POST" >
+    {%csrf_token%}
+    <div class="form main_container">
+      <h1>Add Client</h1>
+      <div class="form_container w100">
+        
+        <div class="input_container">
+          <label for="lastname" class="form_label"
+            >Client Name</label
+          >
+          <input type="text"
+            class="form_control"
+            id="lastname"
+            placeholder="Client Name" name="name" required
+          />
+          
+        </div>
+        <div class="input_container">
+          <label for="lastname" class="form_label"
+            >Contact No.</label
+          >
+          <input type="tel"
+            class="form_control"
+            id="lastname"
+            placeholder="Contact No."   name="phone" placeholder="0123456789" maxlength='10' pattern="[0-9]{10}" required
+          />
+          
+        </div>
+        <div class="input_container">
+          <label for="lastname" class="form_label"
+            >User Name</label
+          >
+          <input type="email" name="uname"
+            class="form_control"
+            id="lastname"
+            placeholder="User Name" required
+          />
+        </div>
+        {% if messages %}
+            <ul class="messages-list" style="color:red">
+                {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        
+        <button class="btn w100" type="submit">Submit</button>
+      </div>
+    </div>
+  </form>
+</main>
+
+{% endblock %}

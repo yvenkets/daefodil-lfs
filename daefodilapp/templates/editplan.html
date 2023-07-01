@@ -1,0 +1,126 @@
+{% extends 'userdashboard.html' %}
+{% load static %}
+
+{% block content %}
+
+<main
+class="plan-container"
+>
+<form method="POST">
+  {%csrf_token%}
+<div class="form main_container plan_container">
+  <h1>Edit Plan</h1>
+  <div class="form_container w100">
+    <div class="input_container">
+      <label for="firstname" class="form_label"
+        >Plan Name</label
+      >
+      <input type="text"
+        class="form_control"
+        id="firstname"
+        placeholder="Plan Name" name="pname" value="{{plans.dlm_plan_nam}}" required
+      />
+      
+    </div>
+    <div class="input_container">
+      <label for="lastname" class="form_label"
+        >Transaction Count</label
+      >
+      <input type="text"
+        class="form_control"
+        id="lastname"
+        placeholder="Transaction Count" name="trn_count" value="{{plans.dlm_plan_trncnt}}" required
+      />
+    </div>
+    <div class="input_container">
+      <label for="lastname" class="form_label"
+        >User Count</label
+      >
+      <input type="text"
+        class="form_control"
+        id="lastname"
+        placeholder="User Count" name="user_count" value="{{plans.dlm_plan_usrcnt}}" required
+      />
+    </div>
+    <div class="input_container">
+      <label for="lastname" class="form_label"
+        >File Size</label
+      >
+      <input type="text"
+        class="form_control"
+        id="lastname"
+        placeholder="File Size" name="file_size" value="{{plans.dlm_plan_filesize}}" required
+      />
+    </div>
+    <div class="input_container">
+      <label for="lastname" class="form_label"
+        >Category Size</label
+      >
+      <input type="text"
+        class="form_control"
+        id="lastname"
+        placeholder="Category Size" name="category_size" value="{{plans.dlm_plan_catsize}}" required
+      />
+    </div>
+    <div class="input_container">
+      <label for="lastname" class="form_label"
+        >Plan Category Group</label
+      >
+      <select 
+        class="form_control"
+        id="lastname" name="plcatgroup" required
+      >
+      <option>{{plans.dlm_plan_catgrp}}</option>
+      {%for x in plan%}
+         <option>{{x.dlm_doctype_catgrp}}</option>
+      {%endfor%}
+      </select>
+    </div>
+    <div class="input_container">
+      <label for="lastname" class="form_label"
+        >Plan UserType</label
+      >
+      <select 
+        class="form_control"
+        id="lastname" name="plusrtype" required
+      >
+      {% if plans.dlm_plan_usrtype == '0' %}
+      <option>Personal</option>
+      {% else %}
+      <option>Business</option>
+      {% endif %}
+      <option>Personal</option>
+      <option>Business</option>
+
+      </select>
+    </div>
+    <div class="input_container">
+      <label for="lastname" class="form_label"
+        >Feature Name</label
+      ><br>
+      <select class="form_control" name="feature"
+      id="feature" multiple required>
+      
+      {% for x in feature %}
+       {% if x.dlm_feature_name in plans.dlm_plan_feature %}
+            <option selected>{{ x.dlm_feature_name }}</option>
+        {% else %}
+            <option>{{ x.dlm_feature_name }}</option>
+        {% endif %}
+        {% endfor %}
+      </select>
+    </div>
+    
+    <button class="btn w100"  type="submit">Update</button>
+  </div>
+</div>
+</form>
+</main>
+<script type="text/javascript">
+  $(function(){
+      $('#feature').multiSelect();
+  });
+</script>
+
+
+{% endblock %}

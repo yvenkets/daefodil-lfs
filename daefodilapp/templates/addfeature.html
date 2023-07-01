@@ -1,0 +1,43 @@
+{% extends 'userdashboard.html' %}
+{% load static %}
+
+{% block content %}
+
+<main
+class="main-container"
+>
+<form method="POST">
+  {%csrf_token%}
+<div class="form main_container">
+  <h1>Add Feature </h1>
+  <div class="form_container w100">
+    
+    <div class="input_container">
+      <label for="lastname" class="form_label"
+        >Feature Name</label
+      >
+      <input type="text"
+        class="form_control"
+        id="lastname"
+        placeholder="Feature Name" name="Fname" required
+      />
+    </div>
+    <div class="input_container">
+      <label for="lastname" class="form_label"
+        >Feature Description</label
+      >
+      <input type="text"
+        class="form_control"
+        id="lastname"
+        placeholder="Feature Description" name="desc"  required
+      />
+    </div>
+    
+    <button class="btn w100" type="submit">Submit</button>
+  </div>
+</div>
+</form>
+</main>
+
+
+{% endblock %}

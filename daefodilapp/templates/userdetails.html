@@ -1,0 +1,368 @@
+{% extends 'userdashboard.html' %}
+{% load static %}
+
+{% block content %}
+
+<div><h3>My documents</h3></div>
+        <div class="tabBox">
+          <ul class="tabs">
+            <div>
+              <li><a href="#tab1">All Files (3)</a></li>
+              <li><a href="#tab2">Approved (0)</a></li>
+              <li><a href="#tab3">Pending (2)</a></li>
+              <li><a href="#tab4">Review (1)</a></li>
+              <li><a href="#tab5">Skipped (0)</a></li>
+            </div>
+            <div>
+              <button class="upload_btn"><a href="{% url 'uploadpage' %}" style="text-decoration:none;color:white">Upload Documents</a></button>
+            </div>
+          </ul>
+
+          <div class="tabContainer">
+            <div id="tab1" class="tabContent">
+              <div class="table_tools">
+                <div class="search_container">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="search_icon"
+                  >
+                    <path
+                      d="M10.564 16.7466C11.9419 16.7466 13.2285 16.2983 14.2744 15.5513L18.209 19.4858C18.3916 19.6685 18.6323 19.7598 18.8813 19.7598C19.4209 19.7598 19.811 19.3447 19.811 18.8135C19.811 18.5645 19.728 18.332 19.5454 18.1494L15.6357 14.2314C16.4575 13.1523 16.9473 11.8159 16.9473 10.3633C16.9473 6.85205 14.0752 3.97998 10.564 3.97998C7.04443 3.97998 4.18066 6.85205 4.18066 10.3633C4.18066 13.8745 7.04443 16.7466 10.564 16.7466ZM10.564 15.3687C7.81641 15.3687 5.55859 13.1025 5.55859 10.3633C5.55859 7.62402 7.81641 5.35791 10.564 5.35791C13.3032 5.35791 15.5693 7.62402 15.5693 10.3633C15.5693 13.1025 13.3032 15.3687 10.564 15.3687Z"
+                      fill="#3C3C43"
+                      fill-opacity="0.6"
+                    />
+                  </svg>
+                  <input type="text" class="search" placeholder="Search" />
+                </div>
+                <div class="filter_container">
+                  <span class="filter">
+                    <i class="fa-solid fa-filter"></i>
+                    Filter
+                  </span>
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M19.9 13.5H4.1C2.6 13.5 2 14.14 2 15.73V19.77C2 21.36 2.6 22 4.1 22H19.9C21.4 22 22 21.36 22 19.77V15.73C22 14.14 21.4 13.5 19.9 13.5Z"
+                      stroke="#686777"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M19.9 2H4.1C2.6 2 2 2.64 2 4.23V8.27C2 9.86 2.6 10.5 4.1 10.5H19.9C21.4 10.5 22 9.86 22 8.27V4.23C22 2.64 21.4 2 19.9 2Z"
+                      stroke="#686777"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div class="table_container" style="overflow-x: auto;">
+                <table id="myTable" style="border-collapse: collapse">
+                  <thead class="table-header">
+                    <tr class="table-row">
+                      <th class="rounded-left table-head">
+                        <span class="icon"><input type="checkbox" /></span>
+                      </th>
+                      <th class="table-head">File Name</th>
+                      <th class="table-head">Uploaded at</th>
+                      <th class="table-head">Uploaded by</th>
+                      <th class="table-head">Review Status</th>
+                      <th class="table-head">Export Status</th>
+                      <th class="rounded-right table-head"></th>
+                    </tr>
+                  </thead>
+                  <tbody class="table-body">
+                    <tr class="table-row">
+                      <td class="table-data">
+                        <span class="icon"><input type="checkbox" /></span>
+                      </td>
+                      <td class="table-data">Sample Bank Statement</td>
+                      <td class="table-data">25 Feb 2023</td>
+
+                      <td class="table-data">James</td>
+                      <td class="table-data">
+                        <div class="status1">Still Pending</div>
+                      </td>
+                      <td>
+
+                      </td>
+                      <td class="table-data"><span class="icon"  ><b><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 12.5C7.27614 12.5 7.5 12.2761 7.5 12C7.5 11.7239 7.27614 11.5 7 11.5C6.72386 11.5 6.5 11.7239 6.5 12C6.5 12.2761 6.72386 12.5 7 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 12.5C12.2761 12.5 12.5 12.2761 12.5 12C12.5 11.7239 12.2761 11.5 12 11.5C11.7239 11.5 11.5 11.7239 11.5 12C11.5 12.2761 11.7239 12.5 12 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17 12.5C17.2761 12.5 17.5 12.2761 17.5 12C17.5 11.7239 17.2761 11.5 17 11.5C16.7239 11.5 16.5 11.7239 16.5 12C16.5 12.2761 16.7239 12.5 17 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                              </span></td>
+                    </tr>
+                    <tr class="table-row">
+                      <td class="table-data">
+                        <span class="icon"><input type="checkbox" /></span>
+                      </td>
+                      <td class="table-data">Sample Bank Statement</td>
+                      <td class="table-data">25 Feb 2023</td>
+                      <td class="table-data">James</td>
+                      <td class="table-data">
+                        <div class="status1">Still Pending</div>
+                      </td>
+                      <td></td>
+                      <td class="table-data"><span class="icon"  ><b><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 12.5C7.27614 12.5 7.5 12.2761 7.5 12C7.5 11.7239 7.27614 11.5 7 11.5C6.72386 11.5 6.5 11.7239 6.5 12C6.5 12.2761 6.72386 12.5 7 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 12.5C12.2761 12.5 12.5 12.2761 12.5 12C12.5 11.7239 12.2761 11.5 12 11.5C11.7239 11.5 11.5 11.7239 11.5 12C11.5 12.2761 11.7239 12.5 12 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17 12.5C17.2761 12.5 17.5 12.2761 17.5 12C17.5 11.7239 17.2761 11.5 17 11.5C16.7239 11.5 16.5 11.7239 16.5 12C16.5 12.2761 16.7239 12.5 17 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                              </span></td>
+                    </tr>
+                    <tr class="table-row">
+                      <td class="table-data">
+                        <span class="icon"><input type="checkbox" /></span>
+                      </td>
+                      <td class="table-data">Sample Bank Statement</td>
+                      <td class="table-data">25 Feb 2023</td>
+                      <td class="table-data">James</td>
+                      <td class="table-data">
+                        <div class="status1">Still Pending</div>
+                      </td>
+                      <td></td>
+                      <td class="table-data"><span class="icon"  ><b><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 12.5C7.27614 12.5 7.5 12.2761 7.5 12C7.5 11.7239 7.27614 11.5 7 11.5C6.72386 11.5 6.5 11.7239 6.5 12C6.5 12.2761 6.72386 12.5 7 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 12.5C12.2761 12.5 12.5 12.2761 12.5 12C12.5 11.7239 12.2761 11.5 12 11.5C11.7239 11.5 11.5 11.7239 11.5 12C11.5 12.2761 11.7239 12.5 12 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17 12.5C17.2761 12.5 17.5 12.2761 17.5 12C17.5 11.7239 17.2761 11.5 17 11.5C16.7239 11.5 16.5 11.7239 16.5 12C16.5 12.2761 16.7239 12.5 17 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                              </span></td>
+                    </tr>
+                    <tr class="table-row">
+                      <td class="table-data">
+                        <span class="icon"><input type="checkbox" /></span>
+                      </td>
+                      <td class="table-data">Sample Bank Statement</td>
+                      <td class="table-data">25 Feb 2023</td>
+
+                      <td class="table-data">James</td>
+                      <td class="table-data">
+                        <div class="status1">Still Pending</div>
+                      </td>
+                      <td></td>
+                      <td class="table-data"><span class="icon"  ><b><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 12.5C7.27614 12.5 7.5 12.2761 7.5 12C7.5 11.7239 7.27614 11.5 7 11.5C6.72386 11.5 6.5 11.7239 6.5 12C6.5 12.2761 6.72386 12.5 7 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 12.5C12.2761 12.5 12.5 12.2761 12.5 12C12.5 11.7239 12.2761 11.5 12 11.5C11.7239 11.5 11.5 11.7239 11.5 12C11.5 12.2761 11.7239 12.5 12 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17 12.5C17.2761 12.5 17.5 12.2761 17.5 12C17.5 11.7239 17.2761 11.5 17 11.5C16.7239 11.5 16.5 11.7239 16.5 12C16.5 12.2761 16.7239 12.5 17 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                            </span></td>
+                    </tr>
+                    <tr class="table-row">
+                      <td class="table-data">
+                        <span class="icon"><input type="checkbox" /></span>
+                      </td>
+                      <td class="table-data">Sample Bank Statement</td>
+                      <td class="table-data">25 Feb 2023</td>
+                      <td class="table-data">James</td>
+                      <td class="table-data">
+                        <div class="status1">Still Pending</div>
+                      </td>
+                      <td>
+
+                      </td>
+                      <td class="table-data"><span class="icon"  ><b><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 12.5C7.27614 12.5 7.5 12.2761 7.5 12C7.5 11.7239 7.27614 11.5 7 11.5C6.72386 11.5 6.5 11.7239 6.5 12C6.5 12.2761 6.72386 12.5 7 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 12.5C12.2761 12.5 12.5 12.2761 12.5 12C12.5 11.7239 12.2761 11.5 12 11.5C11.7239 11.5 11.5 11.7239 11.5 12C11.5 12.2761 11.7239 12.5 12 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17 12.5C17.2761 12.5 17.5 12.2761 17.5 12C17.5 11.7239 17.2761 11.5 17 11.5C16.7239 11.5 16.5 11.7239 16.5 12C16.5 12.2761 16.7239 12.5 17 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                            </span></td>
+                    </tr>
+                    <tr class="table-row">
+                      <td class="table-data">
+                        <span class="icon"><input type="checkbox" /></span>
+                      </td>
+                      <td class="table-data">Sample Bank Statement</td>
+                      <td class="table-data">25 Feb 2023</td>
+                      <td class="table-data">James</td>
+                      <td class="table-data">
+                        <div class="status1">Still Pending</div>
+                      </td>
+                      <td></td>
+                      <td class="table-data"><span class="icon"  ><b><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 12.5C7.27614 12.5 7.5 12.2761 7.5 12C7.5 11.7239 7.27614 11.5 7 11.5C6.72386 11.5 6.5 11.7239 6.5 12C6.5 12.2761 6.72386 12.5 7 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 12.5C12.2761 12.5 12.5 12.2761 12.5 12C12.5 11.7239 12.2761 11.5 12 11.5C11.7239 11.5 11.5 11.7239 11.5 12C11.5 12.2761 11.7239 12.5 12 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17 12.5C17.2761 12.5 17.5 12.2761 17.5 12C17.5 11.7239 17.2761 11.5 17 11.5C16.7239 11.5 16.5 11.7239 16.5 12C16.5 12.2761 16.7239 12.5 17 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                            </span></td>
+                    </tr>
+
+                    <tr class="table-row">
+                      <td class="table-data">
+                        <span class="icon"><input type="checkbox" /></span>
+                      </td>
+                      <td class="table-data">Sample Bank Statement</td>
+                      <td class="table-data">25 Feb 2023</td>
+
+                      <td class="table-data">James</td>
+                      <td class="table-data">
+                        <div class="status1">Still Pending</div>
+                      </td>
+                      <td></td>
+                      <td class="table-data"><span class="icon"  ><b><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 12.5C7.27614 12.5 7.5 12.2761 7.5 12C7.5 11.7239 7.27614 11.5 7 11.5C6.72386 11.5 6.5 11.7239 6.5 12C6.5 12.2761 6.72386 12.5 7 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 12.5C12.2761 12.5 12.5 12.2761 12.5 12C12.5 11.7239 12.2761 11.5 12 11.5C11.7239 11.5 11.5 11.7239 11.5 12C11.5 12.2761 11.7239 12.5 12 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17 12.5C17.2761 12.5 17.5 12.2761 17.5 12C17.5 11.7239 17.2761 11.5 17 11.5C16.7239 11.5 16.5 11.7239 16.5 12C16.5 12.2761 16.7239 12.5 17 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                          </span></td>
+                    </tr>
+                    <tr class="table-row">
+                      <td class="table-data">
+                        <span class="icon"><input type="checkbox" /></span>
+                      </td>
+                      <td class="table-data">Sample Bank Statement</td>
+                      <td class="table-data">25 Feb 2023</td>
+                      <td class="table-data">James</td>
+                      <td class="table-data">
+                        <div class="status1">Still Pending</div>
+                      </td>
+                      <td></td>
+                      <td class="table-data"><span class="icon"  ><b><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 12.5C7.27614 12.5 7.5 12.2761 7.5 12C7.5 11.7239 7.27614 11.5 7 11.5C6.72386 11.5 6.5 11.7239 6.5 12C6.5 12.2761 6.72386 12.5 7 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 12.5C12.2761 12.5 12.5 12.2761 12.5 12C12.5 11.7239 12.2761 11.5 12 11.5C11.7239 11.5 11.5 11.7239 11.5 12C11.5 12.2761 11.7239 12.5 12 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17 12.5C17.2761 12.5 17.5 12.2761 17.5 12C17.5 11.7239 17.2761 11.5 17 11.5C16.7239 11.5 16.5 11.7239 16.5 12C16.5 12.2761 16.7239 12.5 17 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                          </span></td>
+                    </tr>
+                    <tr class="table-row">
+                      <td class="table-data">
+                        <span class="icon"><input type="checkbox" /></span>
+                      </td>
+                      <td class="table-data">Sample Bank Statement</td>
+                      <td class="table-data">25 Feb 2023</td>
+                      <td class="table-data">James</td>
+                      <td class="table-data">
+                        <div class="status1">Still Pending</div>
+                      </td>
+                      <td></td>
+                      <td class="table-data"><span class="icon"  ><b><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 12.5C7.27614 12.5 7.5 12.2761 7.5 12C7.5 11.7239 7.27614 11.5 7 11.5C6.72386 11.5 6.5 11.7239 6.5 12C6.5 12.2761 6.72386 12.5 7 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 12.5C12.2761 12.5 12.5 12.2761 12.5 12C12.5 11.7239 12.2761 11.5 12 11.5C11.7239 11.5 11.5 11.7239 11.5 12C11.5 12.2761 11.7239 12.5 12 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17 12.5C17.2761 12.5 17.5 12.2761 17.5 12C17.5 11.7239 17.2761 11.5 17 11.5C16.7239 11.5 16.5 11.7239 16.5 12C16.5 12.2761 16.7239 12.5 17 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                          </span></td>
+                    </tr>
+
+                    <tr class="table-row">
+                      <td class="table-data">
+                        <span class="icon"><input type="checkbox" /></span>
+                      </td>
+                      <td class="table-data">Sample Bank Statement</td>
+                      <td class="table-data">25 Feb 2023</td>
+
+                      <td class="table-data">James</td>
+                      <td class="table-data">
+                        <div class="status1">Still Pending</div>
+                      </td>
+                      <td></td>
+                      <td class="table-data"><span class="icon"  ><b><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 12.5C7.27614 12.5 7.5 12.2761 7.5 12C7.5 11.7239 7.27614 11.5 7 11.5C6.72386 11.5 6.5 11.7239 6.5 12C6.5 12.2761 6.72386 12.5 7 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 12.5C12.2761 12.5 12.5 12.2761 12.5 12C12.5 11.7239 12.2761 11.5 12 11.5C11.7239 11.5 11.5 11.7239 11.5 12C11.5 12.2761 11.7239 12.5 12 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17 12.5C17.2761 12.5 17.5 12.2761 17.5 12C17.5 11.7239 17.2761 11.5 17 11.5C16.7239 11.5 16.5 11.7239 16.5 12C16.5 12.2761 16.7239 12.5 17 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                        </span></td>
+                    </tr>
+                    <tr class="table-row">
+                      <td class="table-data">
+                        <span class="icon"><input type="checkbox" /></span>
+                      </td>
+                      <td class="table-data">Sample Bank Statement</td>
+                      <td class="table-data">25 Feb 2023</td>
+                      <td class="table-data">James</td>
+                      <td class="table-data">
+                        <div class="status1">Still Pending</div>
+                      </td>
+                      <td></td>
+                      <td class="table-data"><span class="icon"  ><b><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 12.5C7.27614 12.5 7.5 12.2761 7.5 12C7.5 11.7239 7.27614 11.5 7 11.5C6.72386 11.5 6.5 11.7239 6.5 12C6.5 12.2761 6.72386 12.5 7 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 12.5C12.2761 12.5 12.5 12.2761 12.5 12C12.5 11.7239 12.2761 11.5 12 11.5C11.7239 11.5 11.5 11.7239 11.5 12C11.5 12.2761 11.7239 12.5 12 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17 12.5C17.2761 12.5 17.5 12.2761 17.5 12C17.5 11.7239 17.2761 11.5 17 11.5C16.7239 11.5 16.5 11.7239 16.5 12C16.5 12.2761 16.7239 12.5 17 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                        </span></td>
+                    </tr>
+                    <tr class="table-row">
+                      <td class="table-data">
+                        <span class="icon"><input type="checkbox" /></span>
+                      </td>
+                      <td class="table-data">Sample Bank Statement</td>
+                      <td class="table-data">25 Feb 2023</td>
+                      <td class="table-data">James</td>
+                      <td class="table-data">
+                        <div class="status1">Still Pending</div>
+                      </td>
+                      <td></td>
+                      <td class="table-data"><span class="icon"  ><b><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 12.5C7.27614 12.5 7.5 12.2761 7.5 12C7.5 11.7239 7.27614 11.5 7 11.5C6.72386 11.5 6.5 11.7239 6.5 12C6.5 12.2761 6.72386 12.5 7 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 12.5C12.2761 12.5 12.5 12.2761 12.5 12C12.5 11.7239 12.2761 11.5 12 11.5C11.7239 11.5 11.5 11.7239 11.5 12C11.5 12.2761 11.7239 12.5 12 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17 12.5C17.2761 12.5 17.5 12.2761 17.5 12C17.5 11.7239 17.2761 11.5 17 11.5C16.7239 11.5 16.5 11.7239 16.5 12C16.5 12.2761 16.7239 12.5 17 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                        </span></td>
+                    </tr>
+                    <tr class="table-row">
+                      <td class="table-data">
+                        <span class="icon"><input type="checkbox" /></span>
+                      </td>
+                      <td class="table-data">Sample Bank Statement</td>
+                      <td class="table-data">25 Feb 2023</td>
+
+                      <td class="table-data">James</td>
+                      <td class="table-data">
+                        <div class="status1">Still Pending</div>
+                      </td>
+                      <td></td>
+                      <td class="table-data"><span class="icon"  ><b><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 12.5C7.27614 12.5 7.5 12.2761 7.5 12C7.5 11.7239 7.27614 11.5 7 11.5C6.72386 11.5 6.5 11.7239 6.5 12C6.5 12.2761 6.72386 12.5 7 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 12.5C12.2761 12.5 12.5 12.2761 12.5 12C12.5 11.7239 12.2761 11.5 12 11.5C11.7239 11.5 11.5 11.7239 11.5 12C11.5 12.2761 11.7239 12.5 12 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17 12.5C17.2761 12.5 17.5 12.2761 17.5 12C17.5 11.7239 17.2761 11.5 17 11.5C16.7239 11.5 16.5 11.7239 16.5 12C16.5 12.2761 16.7239 12.5 17 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                      </span></td>
+                    </tr>
+                    <tr class="table-row">
+                      <td class="table-data">
+                        <span class="icon"><input type="checkbox" /></span>
+                      </td>
+                      <td class="table-data">Sample Bank Statement</td>
+                      <td class="table-data">25 Feb 2023</td>
+                      <td class="table-data">James</td>
+                      <td class="table-data">
+                        <div class="status1">Still Pending</div>
+                      </td>
+                      <td></td>
+                      <td class="table-data"><span class="icon"><b><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 12.5C7.27614 12.5 7.5 12.2761 7.5 12C7.5 11.7239 7.27614 11.5 7 11.5C6.72386 11.5 6.5 11.7239 6.5 12C6.5 12.2761 6.72386 12.5 7 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 12.5C12.2761 12.5 12.5 12.2761 12.5 12C12.5 11.7239 12.2761 11.5 12 11.5C11.7239 11.5 11.5 11.7239 11.5 12C11.5 12.2761 11.7239 12.5 12 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17 12.5C17.2761 12.5 17.5 12.2761 17.5 12C17.5 11.7239 17.2761 11.5 17 11.5C16.7239 11.5 16.5 11.7239 16.5 12C16.5 12.2761 16.7239 12.5 17 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                      </span></td>
+                    </tr>
+                    <tr class="table-row">
+                      <td class="table-data">
+                        <span class="icon"><input type="checkbox" /></span>
+                      </td>
+                      <td class="table-data">Sample Bank Statement</td>
+                      <td class="table-data">25 Feb 2023</td>
+                      <td class="table-data">James</td>
+                      <td class="table-data">
+                        <div class="status1">Still Pending</div>
+                      </td>
+                      <td></td>
+                      <td class="table-data"><span class="icon"  ><b><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 12.5C7.27614 12.5 7.5 12.2761 7.5 12C7.5 11.7239 7.27614 11.5 7 11.5C6.72386 11.5 6.5 11.7239 6.5 12C6.5 12.2761 6.72386 12.5 7 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 12.5C12.2761 12.5 12.5 12.2761 12.5 12C12.5 11.7239 12.2761 11.5 12 11.5C11.7239 11.5 11.5 11.7239 11.5 12C11.5 12.2761 11.7239 12.5 12 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17 12.5C17.2761 12.5 17.5 12.2761 17.5 12C17.5 11.7239 17.2761 11.5 17 11.5C16.7239 11.5 16.5 11.7239 16.5 12C16.5 12.2761 16.7239 12.5 17 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                      </span></td>
+                    </tr>
+                    <tr class="table-row">
+                      <td class="table-data">
+                        <span class="icon"><input type="checkbox" /></span>
+                      </td>
+                      <td class="table-data">Sample Bank Statement</td>
+                      <td class="table-data">25 Feb 2023</td>
+
+                      <td class="table-data">James</td>
+                      <td class="table-data">
+                        <div class="status1">Still Pending</div>
+                      </td>
+                      <td></td>
+                      <td class="table-data"><span class="icon"  ><b><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 12.5C7.27614 12.5 7.5 12.2761 7.5 12C7.5 11.7239 7.27614 11.5 7 11.5C6.72386 11.5 6.5 11.7239 6.5 12C6.5 12.2761 6.72386 12.5 7 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 12.5C12.2761 12.5 12.5 12.2761 12.5 12C12.5 11.7239 12.2761 11.5 12 11.5C11.7239 11.5 11.5 11.7239 11.5 12C11.5 12.2761 11.7239 12.5 12 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17 12.5C17.2761 12.5 17.5 12.2761 17.5 12C17.5 11.7239 17.2761 11.5 17 11.5C16.7239 11.5 16.5 11.7239 16.5 12C16.5 12.2761 16.7239 12.5 17 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                    </span></td>
+                    </tr>
+                    <tr class="table-row">
+                      <td class="table-data">
+                        <span class="icon"><input type="checkbox" /></span>
+                      </td>
+                      <td class="table-data">Sample Bank Statement</td>
+                      <td class="table-data">25 Feb 2023</td>
+                      <td class="table-data">James</td>
+                      <td class="table-data">
+                        <div class="status1">Still Pending</div>
+                      </td>
+                      <td></td>
+                      <td class="table-data"><span class="icon"  ><b><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 12.5C7.27614 12.5 7.5 12.2761 7.5 12C7.5 11.7239 7.27614 11.5 7 11.5C6.72386 11.5 6.5 11.7239 6.5 12C6.5 12.2761 6.72386 12.5 7 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 12.5C12.2761 12.5 12.5 12.2761 12.5 12C12.5 11.7239 12.2761 11.5 12 11.5C11.7239 11.5 11.5 11.7239 11.5 12C11.5 12.2761 11.7239 12.5 12 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17 12.5C17.2761 12.5 17.5 12.2761 17.5 12C17.5 11.7239 17.2761 11.5 17 11.5C16.7239 11.5 16.5 11.7239 16.5 12C16.5 12.2761 16.7239 12.5 17 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                    </span></td>
+                    </tr>
+                    <tr class="table-row">
+                      <td class="table-data">
+                        <span class="icon"><input type="checkbox" /></span>
+                      </td>
+                      <td class="table-data">Sample Bank Statement</td>
+                      <td class="table-data">25 Feb 2023</td>
+                      <td class="table-data">James</td>
+                      <td class="table-data">
+                        <div class="status1">Still Pending</div>
+                      </td>
+                      <td></td>
+                      <td class="table-data"><span class="icon"><b><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 12.5C7.27614 12.5 7.5 12.2761 7.5 12C7.5 11.7239 7.27614 11.5 7 11.5C6.72386 11.5 6.5 11.7239 6.5 12C6.5 12.2761 6.72386 12.5 7 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 12.5C12.2761 12.5 12.5 12.2761 12.5 12C12.5 11.7239 12.2761 11.5 12 11.5C11.7239 11.5 11.5 11.7239 11.5 12C11.5 12.2761 11.7239 12.5 12 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17 12.5C17.2761 12.5 17.5 12.2761 17.5 12C17.5 11.7239 17.2761 11.5 17 11.5C16.7239 11.5 16.5 11.7239 16.5 12C16.5 12.2761 16.7239 12.5 17 12.5Z" fill="#595959" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#595959" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                    </span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div id="tab2" class="tabContent">
+              This would be the Approved...
+            </div>
+
+            <div id="tab3" class="tabContent">This would be the Pending...</div>
+
+            <div id="tab4" class="tabContent">This would be the Review...</div>
+
+            <div id="tab5" class="tabContent">This would be the Skipped...</div>
+          </div>
+        </div>
+
+
+{% endblock %}

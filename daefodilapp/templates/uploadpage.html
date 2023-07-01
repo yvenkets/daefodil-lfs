@@ -1,0 +1,1345 @@
+{% extends 'userdashboard.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  #imagePreview {
+    max-width: 200px;
+    max-height: 200px;
+    margin-top: 10px;
+  }
+  /* CSS for the loading page */
+.loading {
+  display: none; /* initially hidden */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  text-align: center;
+  padding-top: 20%;
+}
+
+.loading-text {
+  color: #fff;
+  font-size: 24px;
+}
+</style>
+{% comment %} <div class="tabContainer"> {% endcomment %}
+   {% comment %} <button class="accordion">Section 1</button>  {% endcomment %}
+   <div id="loading" class="loading">
+    <span class="loading-text">Your File is getting Processed...</span>
+  </div>
+ <div class="accordion"> 
+  <div id="myDIV" class="accordion-header{% if not is_active %} active{% endif %}" onclick="toggleAccordion('accordion1')">Upload</div> 
+    <div class="accordion-content" id="accordion1" style="display: {% if not is_active %}block{% else %}none{% endif %}">   
+      <div class="uploadpage">
+        <form id="upload-form" method="POST" enctype="multipart/form-data" onsubmit="removeActiveAndHide(event)" >
+        {% csrf_token %}
+        <div class="upload-document"> 
+          <h1><label class="file-upload" >File Upload</label></h1><br>
+        
+          <div id="drop-zone" class="drop-zone">
+            <div class="drop-zone__prompt"><label style="position:relative;top:170px">Select a file or drag here</label> <br> <span class="icon" for="file-input" ><i class='bx bx-download'style="position:relative;bottom:20px" ></i></span> </div>
+        
+            <input type="file" id="file-input" placeholder="select a file"  name="file" accept=".pdf,.doc,.docx,.xls,.xlsx" class="drop-zone__input" onchange="displayFileName(event)">
+
+            <input type="file" name="file" placeholder="select a file" id="upload" onchange="displayFileName(event)" hidden />
+            <label class="file-submit" for="upload" style="position:relative;top:300px">Select a file</label>
+            {% comment %} <span id="file-name" style="position:relative;bottom:0"></span> {% endcomment %}<br>
+            <p id="file-name" style="margin-top:200px"></p>
+
+            <button id="triggerButton" type="submit" class="button" style="cursor:pointer;position:relative;top:150px"  >Process</button><br><br><br><br><br><br><br><br><br>
+           
+          </div>
+          </div>
+        </form>   
+      </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    </div><br><br><br><br><br>
+  </div>
+  <script>
+    function removeActiveClass() {
+      var element = document.getElementById("myDIV");
+      element.classList.remove("active");
+      var accordionContent = document.getElementById('accordion1');
+    accordionContent.style.display = 'none';
+    }
+  </script>
+  {% comment %} <script>
+    // Check if the "active" class should be removed
+    var isAccordionActive = localStorage.getItem('accordionActive');
+    if (isAccordionActive === 'false') {
+      var accordionHeader = document.getElementById('myDIV');
+      accordionHeader.classList.remove('active');
+  
+      var accordionContent = document.getElementById('accordion1');
+      accordionContent.style.display = 'none';
+    }
+  
+    function removeActiveAndHide(event) {
+      
+  
+      var accordionHeader = document.getElementById('myDIV');
+      accordionHeader.classList.remove('active');
+  
+      var accordionContent = document.getElementById('accordion1');
+      accordionContent.style.display = 'none';
+  
+      // Store the "active" state in local storage
+      //localStorage.setItem('accordionActive', 'false');
+  
+      // Submit the form programmatically if needed
+      // event.target.submit();
+    }
+  </script> {% endcomment %}
+  
+
+
+
+
+
+  <script>
+    const dropZone = document.querySelector('.drop-zone');
+    const fileInput = document.querySelector('#file-input');
+    const fileName = document.querySelector('#file-name');
+  
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('drop-zone--over');
+    });
+  
+    dropZone.addEventListener('dragleave', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('drop-zone--over');
+    });
+  
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('drop-zone--over');
+      fileInput.files = e.dataTransfer.files;
+      fileName.textContent = fileInput.files[0].name;
+    });
+  
+    fileInput.addEventListener('change', (e) => {
+    fileName.textContent = fileInput.files[0].name;
+  });
+
+  fileInput.addEventListener('input', (e) => {
+    fileName.textContent = fileInput.value.split('\\').pop();
+  });
+
+  </script>
+  {% comment %} <script>
+    function displayFileName(event) {
+        const input = event.target;
+        const fileName = input.files[0].name;
+        document.getElementById("file-name").textContent = fileName;
+      }
+  </script> {% endcomment %}
+  <script>
+    function displayFileName(event) {
+      const input = event.target;
+      const fileNames = Array.from(input.files).map(file => file.name);
+      document.getElementById("file-name").textContent = fileNames.join(", ");
+    }
+  </script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+	  alert('inside js')
+      $("#upload-form").submit(function(event) {
+        event.preventDefault(); // Prevent the default form submission
+		alert('inside js1')
+        $("#myDIV").hide(); // Hide the form
+        $("#loading").show(); // Show the loading page
+
+        // Perform the form submission using AJAX
+        $.ajax({
+          url: "{% url 'uploadpage' %}",
+          type: "POST",
+          data: new FormData(this),
+          processData: false,
+          contentType: false,
+          success: function(response) {
+			alert('inside js2')
+            // Hide the loading page
+            $("#loading").hide();
+
+            // Render the success page or redirect to a different URL
+            window.location.href = "{% url 'docmapping' %}";
+          },
+          error: function(xhr, status, error) {
+            // Handle the error response
+            console.log(error);
+          }
+        });
+      });
+    });
+  </script> 
+{% comment %} <button type="button" onclick="previewImage()"  style="cursor:pointer" class="button">Preview</button><br><br><br><br><br><br><br><br><br>
+<div id="imagePreview"></div> {% endcomment %}
+{% comment %} <button class="accordion">Section 2</button> {% endcomment %}
+<style>
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px;
+  }
+  
+  .modal-buttons {
+    text-align: right;
+    margin-top: 20px;
+  }
+  
+  .modal-buttons button {
+    margin-left: 10px;
+  }
+</style>
+<style>
+  /* Modal styles */
+    .modals {
+      display: none;
+      position: fixed;
+      z-index: 100;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-contents {
+      background-color: #fefefe;
+      margin: 20% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 300px;
+    }
+
+    .modal-buttonss {
+      text-align: center;
+    }
+
+    .button {
+      margin: 5px;
+    }
+</style>
+  <div class="accordions"> 
+    <div class="accordion-header {% if  is_active %} active{% endif %}" onclick="toggleAccordion('accordion2')">Extraction Details</div> 
+      <div class="accordion-content" id="accordion2" style="display: {% if  is_active %}block{% else %}none{% endif %}">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+        {% comment %} <script src="download.js"></script> {% endcomment %}
+        <form method ="POST" id="myForm"> 
+          {%csrf_token%}
+            <center>
+              <div id="mytable" class="table-container">
+                <div id="imagePreview"></div>
+                <table id="myTable" style="border-collapse: collapse" >
+ <tr class="table-row">
+     <td class="table-data"><b>SELECTED</b></td>
+     {% if elements.dlt_melements_1 %}
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_1" id="checkbox_1" checked> </td>
+     {% else %}
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_1" id="checkbox_1"> </td>
+     {% endif %}
+     {% if elements.dlt_melements_2 %}
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_2" id="checkbox_2" checked> </td>
+     {% else %}
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_2" id="checkbox_2"> </td>
+     {% endif %}
+     {% if elements.dlt_melements_3 %}
+     <td class="table-data"><input type="checkbox"  value="SELECTED" name="checkbox_3" id="checkbox_3" checked> </td>
+     {% else %}
+     <td class="table-data"><input type="checkbox"  value="SELECTED" name="checkbox_3" id="checkbox_3"> </td>
+     {% endif %}
+     {% if elements.dlt_melements_4 %}
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_4" id="checkbox_4" checked> </td>
+     {% else %}
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_4" id="checkbox_4"> </td>
+     {% endif %}
+     {% if elements.dlt_melements_5 %}
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_5" id="checkbox_5" checked> </td>
+     {% else %}
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_5" id="checkbox_5"> </td>
+     {% endif %}
+     {% if elements.dlt_melements_6 %}
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_6" id="checkbox_6" checked> </td>
+     {% else %}
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_6" id="checkbox_6"> </td>
+     {% endif %}
+     {% if elements.dlt_melements_7 %} 
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_7" id="checkbox_7" checked> </td>
+     {% else %}
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_7" id="checkbox_7"> </td>
+     {% endif %}
+     {% if elements.dlt_melements_8 %}
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_8" id="checkbox_8" checked> </td>
+     {% else %}
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_8" id="checkbox_8"> </td>
+     {% endif %}
+     {% if elements.dlt_melements_9 %}
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_9" id="checkbox_9" checked> </td>
+     {% else %}
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_9" id="checkbox_9"> </td>
+     {% endif %}
+     {% if elements.dlt_melements_10 %}
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_10" id="checkbox_10" checked> </td>
+     {% else %}
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_10" id="checkbox_10" > </td>
+     {% endif %}
+     {% if elements.dlt_melements_11 %}
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_11" id="checkbox_11" checked> </td>
+      {% else %}
+      <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_11" id="checkbox_11"> </td>
+     {% endif %}
+     {% if elements.dlt_melements_12 %}
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_12" id="checkbox_12" checked> </td>
+     {% else %}
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_12" id="checkbox_12" > </td>
+     {% endif %}
+     {% if elements.dlt_melements_13 %}
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_13" id="checkbox_13" checked> </td>
+     {% else %}
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_13" id="checkbox_13" > </td>
+     {% endif %}
+     {% if elements.dlt_melements_14 %}
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_14" id="checkbox_14" checked> </td>
+     {% else %}
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_14" id="checkbox_14" > </td>
+     {% endif %}
+     {% if elements.dlt_melements_15 %}
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_15" id="checkbox_15" checked> </td>
+     {% else %}
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_15" id="checkbox_15" > </td>
+     {% endif %}
+</tr>
+<tr class="table-row">  
+     <th class="table-head">CUSTOM NAME</th>
+     <td class="table-data"><input type="text" class="inpu"  name="input_1" id="input_2" ></td>
+     <td class="table-data"><input type="text" class="inpu" name="input_2" id="input_4"></td>
+     <td class="table-data"><input type="text" class="inpu" name="input_3" id="input_6"></td>
+     <td class="table-data"><input type="text" class="inpu" name="input_4" id="input_8"></td>
+     <td class="table-data"><input type="text" class="inpu"  name="input_5" id="input_10"></td>
+     <td class="table-data"><input type="text" class="inpu"  name="input_6" id="input_12"></td>
+     <td class="table-data"><input type="text" class="inpu" name="input_7" id="input_14"></td>
+     <td class="table-data"><input type="text" class="inpu"  name="input_8" id="input_16"></td>
+     <td class="table-data"><input type="text" class="inpu" name="input_9" id="input_18"></td>
+     <td class="table-data"><input type="text" class="inpu" name="input_10" id="input_20"></td>
+     <td class="table-data"><input type="text" class="inpu" name="input_11" id="input_22"></td>
+     <td class="table-data"><input type="text" class="inpu" name="input_12" id="input_24"></td>
+     <td class="table-data"><input type="text" class="inpu" name="input_13" id="input_26"></td>
+     <td class="table-data"><input type="text" class="inpu" name="input_14" id="input_28"></td>
+     <td class="table-data"><input type="text" class="inpu"  name="input_15" id="input_30"></td>
+</tr>
+<tr class="table-row">
+
+     <th class="table-head">EXTRACTED COLUMNS</th>
+     {% if elements.dlt_melements_1 %}
+     <td class="table-data"><input type="text" class="input" name="input1" value="{{data_dict.dlt_melements_1}}" id="input_1"> </td>
+     {% else %}
+     <td class="table-data"><input type="text" class="input" name="input1" value="{{data_dict.dlt_melements_1}}" id="input_1" disabled readonly> </td>
+     {% endif %}
+     {% if elements.dlt_melements_2 %}
+     <td class="table-data"><input type="text" class="input" name="input2" value="{{data_dict.dlt_melements_2}}" id="input_3"> </td>
+     {% else %}
+     <td class="table-data"><input type="text" class="input" name="input2" value="{{data_dict.dlt_melements_2}}" id="input_3" disabled readonly> </td>
+     {% endif %}
+     {% if elements.dlt_melements_3 %}
+     <td class="table-data"><input type="text" class="input" name="input3" value="{{data_dict.dlt_melements_3}}" id="input_5"> </td>
+     {% else %}
+     <td class="table-data"><input type="text" class="input" name="input3" value="{{data_dict.dlt_melements_3}}" id="input_5" disabled readonly> </td>
+     {% endif %}
+     {% if elements.dlt_melements_4 %}
+     <td class="table-data"><input type="text" class="input" name="input4" value="{{data_dict.dlt_melements_4}}" id="input_7"> </td>
+     {% else %}
+     <td class="table-data"><input type="text" class="input" name="input4" value="{{data_dict.dlt_melements_4}}" id="input_7" disabled readonly> </td>
+     {% endif %}
+     {% if elements.dlt_melements_5 %}
+     <td class="table-data"><input type="text" class="input" name="input5" value="{{data_dict.dlt_melements_5}}" id="input_9"> </td>
+     {% else %}
+     <td class="table-data"><input type="text" class="input" name="input5" value="{{data_dict.dlt_melements_5}}" id="input_9" disabled readonly> </td>
+     {% endif %}
+     {% if elements.dlt_melements_6 %}
+     <td class="table-data"><input type="text" class="input" name="input6" value="{{data_dict.dlt_melements_6}}" id="input_11"> </td>
+     {% else %}
+     <td class="table-data"><input type="text" class="input" name="input6" value="{{data_dict.dlt_melements_6}}" id="input_11" disabled readonly> </td>
+     {% endif %} 
+     {% if elements.dlt_melements_7 %}
+     <td class="table-data"><input type="text" class="input" name="input7" value="{{data_dict.dlt_melements_7}}" id="input_13"> </td>
+      {% else %}
+      <td class="table-data"><input type="text" class="input" name="input7" value="{{data_dict.dlt_melements_7}}" id="input_13" disabled readonly> </td>
+      {% endif %}
+     {% if elements.dlt_melements_8 %}
+     <td class="table-data"><input type="text" class="input" name="input8" value="{{data_dict.dlt_melements_8}}" id="input_15"> </td>
+     {% else %}
+     <td class="table-data"><input type="text" class="input" name="input8" value="{{data_dict.dlt_melements_8}}" id="input_15" disabled readonly> </td>
+     {% endif %}
+     {% if elements.dlt_melements_9 %}
+     <td class="table-data"><input type="text" class="input" name="input9" value="{{data_dict.dlt_melements_9}}" id="input_17"> </td> 
+     {% else %} 
+     <td class="table-data"><input type="text" class="input" name="input9" value="{{data_dict.dlt_melements_9}}" id="input_17" disabled readonly> </td>
+     {% endif %} 
+     {% if elements.dlt_melements_10 %}
+     <td class="table-data"><input type="text" class="input" name="input10" value="{{data_dict.dlt_melements_10}} " id="input_19"> </td>
+     {% else %}
+     <td class="table-data"><input type="text" class="input" name="input10" value="{{data_dict.dlt_melements_10}} " id="input_19" disabled readonly> </td>
+     {% endif %}
+     {% if elements.dlt_melements_11 %}
+     <td class="table-data"><input type="text" class="input" name="input11" value="{{data_dict.dlt_melements_11}}" id="input_21"> </td>
+     {% else %}
+     <td class="table-data"><input type="text" class="input" name="input11" value="{{data_dict.dlt_melements_11}}" id="input_21" disabled readonly> </td>
+     {% endif %}
+     {% if elements.dlt_melements_12 %}
+     <td class="table-data"><input type="text" class="input" name="input12" value="{{data_dict.dlt_melements_12}}" id="input_23"> </td>
+     {% else %}
+     <td class="table-data"><input type="text" class="input" name="input12" value="{{data_dict.dlt_melements_12}}" id="input_23" disabled readonly> </td>
+     {% endif %}
+     {% if elements.dlt_melements_13 %}
+     <td class="table-data"><input type="text" class="input"  name="input13" value="{{data_dict.dlt_melements_13}}" id="input_25"> </td>
+     {% else %}
+     <td class="table-data"><input type="text" class="input"  name="input13" value="{{data_dict.dlt_melements_13}}" id="input_25" disabled readonly> </td>
+     {% endif %}
+     {% if elements.dlt_melements_14 %}
+     <td class="table-data"><input type="text" class="input" name="input14" value="{{data_dict.dlt_melements_14}}" id="input_27"> </td>
+     {% else %}
+     <td class="table-data"><input type="text" class="input" name="input14" value="{{data_dict.dlt_melements_14}}" id="input_27" disabled readonly> </td>
+     {% endif %}
+     {% if elements.dlt_melements_15 %}
+     <td class="table-data"><input type="text" class="input" name="input15" value="{{data_dict.dlt_melements_15}}" id="input_29"> </td>
+     {% else %}
+     <td class="table-data"><input type="text" class="input" name="input15" value="{{data_dict.dlt_melements_15}}" id="input_29" disabled readonly> </td>
+     {% endif %}
+     
+</tr>
+<tr class="table-row">   
+      <th>EXTRACTED COLUMN VALUES</th>
+      <td class="table-data" id="nameData1" name="inpt1">{{elements.dlt_melements_1}}</td>
+     <td class="table-data" id="nameData2">{{elements.dlt_melements_2}}</td>
+     <td class="table-data" id="nameData3">{{elements.dlt_melements_3}}</td>
+     <td class="table-data" id="nameData4">{{elements.dlt_melements_4}}</td>
+     <td class="table-data" id="nameData5">{{elements.dlt_melements_5}}</td>
+     <td class="table-data" id="nameData6">{{elements.dlt_melements_6}}</td>
+     <td class="table-data" id="nameData7">{{elements.dlt_melements_7}}</td>
+     <td class="table-data" id="nameData8">{{elements.dlt_melements_8}} </td>
+     <td class="table-data" id="nameData9">{{elements.dlt_melements_9}}</td>
+     <td class="table-data" id="nameData10">{{elements.dlt_melements_10}}</td>
+     <td class="table-data" id="nameData11">{{elements.dlt_melements_11}}</td>
+     <td class="table-data" id="nameData12">{{elements.dlt_melements_12}}</td>
+     <td class="table-data" id="nameData13">{{elements.dlt_melements_13}}</td>
+     <td class="table-data" id="nameData14">{{elements.dlt_melements_14}}</td>
+     <td class="table-data" id="nameData15">{{elements.dlt_melements_15}}</td>
+     
+</tr>
+  
+
+ </table>
+ <input type="hidden" name="selected_butotn" id="selected_butotn" />
+ <div class="Click-heres">
+  <button id="form2Button1"  type="submit" class="btn w100"  ><a href="{% url 'preview' %}" style="text-decoration:none;color:white">Preview</a></button>
+  <button id="form2Button2"  class="btn w100" style="cursor:pointer" onclick="showPopup(this.id);">Next</button>
+  <button id="backButton" type="submit" class="btn w100" onclick="goback()" style="cursor:pointer">Back</button>
+</div>
+ 
+  
+</div>
+</center>
+</form>
+
+
+<script>
+var cellContent1 = document.getElementById('nameData1').innerHTML;
+var colonIndex1 = cellContent1.indexOf(':');
+var result1 = cellContent1.substring(0, colonIndex1).trim();
+document.getElementById('nameData1').innerHTML = cellContent1.substring(colonIndex1 + 1).trim();
+if (result1.startsWith('td!')) {
+  var result1 = result1.substring(3); // Remove the first three characters ('td!')
+} else {
+  var result1 = result1;
+}
+  document.getElementById('input_2').value = result1;
+
+var cellContent2 = document.getElementById('nameData2').innerHTML;
+var colonIndex2 = cellContent2.indexOf(':');
+var result2 = cellContent2.substring(0, colonIndex2).trim();
+document.getElementById('nameData2').innerHTML = cellContent2.substring(colonIndex2 + 1).trim();
+if (result2.startsWith('td!')) {
+  var result2 = result2.substring(3); // Remove the first three characters ('td!')
+} else {
+  var result2 = result2;
+}
+  document.getElementById('input_4').value = result2;
+
+var cellContent3 = document.getElementById('nameData3').innerHTML;
+var colonIndex3 = cellContent3.indexOf(':');
+var result3 = cellContent3.substring(0, colonIndex3).trim();
+document.getElementById('nameData3').innerHTML = cellContent3.substring(colonIndex3 + 1).trim();
+if (result3.startsWith('td!')) {
+  var result3 = result3.substring(3); // Remove the first three characters ('td!')
+} else {
+  var result3 = result3;
+}
+  document.getElementById('input_6').value = result3;
+  
+
+  var cellContent4 = document.getElementById('nameData4').innerHTML;
+var colonIndex4 = cellContent4.indexOf(':');
+var result4 = cellContent4.substring(0, colonIndex4).trim();
+document.getElementById('nameData4').innerHTML = cellContent4.substring(colonIndex4 + 1).trim();
+  if (result4.startsWith('td!')) {
+    var result4 = result4.substring(3); // Remove the first three characters ('td!')
+} else {
+  console.log("in")
+    var result4 = result4;
+}
+  document.getElementById('input_8').value = result4;
+  
+
+var cellContent5 = document.getElementById('nameData5').innerHTML;
+var colonIndex5 = cellContent5.indexOf(':');
+var result5 = cellContent5.substring(0, colonIndex5).trim();
+document.getElementById('nameData5').innerHTML = cellContent5.substring(colonIndex5 + 1).trim();
+if (result5.startsWith('td!')) {
+  var result5 = result5.substring(3); // Remove the first three characters ('td!')
+} else {
+  var result5= result5;
+}
+  document.getElementById('input_10').value = result5;
+  
+
+var cellContent6 = document.getElementById('nameData6').innerHTML;
+var colonIndex6 = cellContent6.indexOf(':');
+var result6 = cellContent6.substring(0, colonIndex6).trim();
+document.getElementById('nameData6').innerHTML = cellContent6.substring(colonIndex6 + 1).trim();
+if (result6.startsWith('td!')) {
+  var result6 = result6.substring(3); // Remove the first three characters ('td!')
+} else {
+  var result6 = result6;
+}
+  document.getElementById('input_12').value = result6;
+  
+
+var cellContent7 = document.getElementById('nameData7').innerHTML;
+var colonIndex7 = cellContent7.indexOf(':');
+var result7 = cellContent7.substring(0, colonIndex7).trim();
+document.getElementById('nameData7').innerHTML = cellContent7.substring(colonIndex7 + 1).trim();
+if (result7.startsWith('td!')) {
+  var result7 = result7.substring(3); // Remove the first three characters ('td!')
+} else {
+  var result7 = result7;
+}
+  document.getElementById('input_14').value = result7;
+  
+
+var cellContent8 = document.getElementById('nameData8').innerHTML;
+var colonIndex8 = cellContent8.indexOf(':');
+var result8 = cellContent8.substring(0, colonIndex8).trim();
+document.getElementById('nameData8').innerHTML = cellContent8.substring(colonIndex8 + 1).trim();
+if (result8.startsWith('td!')) {
+  var result8 = result8.substring(3); // Remove the first three characters ('td!')
+} else {
+  var result8 = result8;
+}
+  document.getElementById('input_16').value = result8;
+
+
+  var cellContent9 = document.getElementById('nameData9').innerHTML;
+var colonIndex9 = cellContent9.indexOf(':');
+var result9 = cellContent9.substring(0, colonIndex9).trim();
+document.getElementById('nameData9').innerHTML = cellContent9.substring(colonIndex9 + 1).trim();
+if (result9.startsWith('td!')) {
+  var result9 = result9.substring(3); // Remove the first three characters ('td!')
+} else {
+  var result9 = result9;
+}
+  document.getElementById('input_18').value = result9;
+  
+
+  var cellContent10 = document.getElementById('nameData10').innerHTML;
+var name10 = cellContent10.split(':')[1].trim();
+document.getElementById('nameData10').innerHTML = name10;
+  var names10 = cellContent10.split(':')[0].trim();
+  if (names10.startsWith('td!')) {
+    var result10 = names10.substring(3); // Remove the first three characters ('td!')
+} else {
+    var result10 = names10;
+}
+  document.getElementById('input_20').value = result10;
+  
+var cellContent11 = document.getElementById('nameData11').innerHTML;
+var colonIndex11 = cellContent11.indexOf(':');
+var result11 = cellContent11.substring(0, colonIndex11).trim();
+document.getElementById('nameData11').innerHTML = cellContent11.substring(colonIndex11 + 1).trim();
+if (result11.startsWith('td!')) {
+  var result11 = result11.substring(3); // Remove the first three characters ('td!')
+} else {
+  var result11 = result11;
+}
+  document.getElementById('input_22').value = result11;
+  
+var cellContent12 = document.getElementById('nameData12').innerHTML;
+var colonIndex12 = cellContent12.indexOf(':');
+var result12 = cellContent12.substring(0, colonIndex12).trim();
+document.getElementById('nameData12').innerHTML = cellContent12.substring(colonIndex12 + 1).trim();
+if (result12.startsWith('td!')) {
+  var result12 = result12.substring(3); // Remove the first three characters ('td!')
+} else {
+  var result12 = result12;
+}
+  document.getElementById('input_24').value = result12;
+  
+var cellContent13 = document.getElementById('nameData13').innerHTML;
+var colonIndex13 = cellContent13.indexOf(':');
+var result13 = cellContent13.substring(0, colonIndex13).trim();
+document.getElementById('nameData13').innerHTML = cellContent13.substring(colonIndex13 + 1).trim();
+if (result13.startsWith('td!')) {
+  var result13 = result13.substring(3); // Remove the first three characters ('td!')
+} else {
+  var result13 = result13;
+}
+  document.getElementById('input_26').value = result13;
+
+
+var cellContent14 = document.getElementById('nameData14').innerHTML;
+var colonIndex14 = cellContent14.indexOf(':');
+var result14 = cellContent14.substring(0, colonIndex14).trim();
+document.getElementById('nameData14').innerHTML = cellContent14.substring(colonIndex14 + 1).trim();
+if (result14.startsWith('td!')) {
+  var result14 = result14.substring(3); // Remove the first three characters ('td!')
+} else {
+  var result14 = result14;
+}
+  document.getElementById('input_28').value = result14;
+  
+var cellContent15 = document.getElementById('nameData15').innerHTML;
+var colonIndex15 = cellContent15.indexOf(':');
+var result15 = cellContent15.substring(0, colonIndex15).trim();
+document.getElementById('nameData15').innerHTML = cellContent15.substring(colonIndex15 + 1).trim();
+if (result15.startsWith('td!')) {
+  var result15 = result15.substring(3); // Remove the first three characters ('td!')
+} else {
+  var result15 = result15;
+}
+  document.getElementById('input_30').value = result15;
+  
+
+</script>
+
+  <style>
+    .label {
+      display: inline-block;
+      width: 100px;
+      height: 50px;
+      background-color: #f2f2f2;
+      border: 1px solid #ccc;
+      text-align: center;
+      line-height: 50px;
+      font-family: Arial, sans-serif;
+    }
+  </style>
+ 
+<style>
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  
+  .dropdown-content button {
+    color: black;
+    padding: 120px 16px;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+  }
+  .dropdown-content a {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+    margin-bottom: 0; /* Remove margin-bottom */
+  }
+  
+  .dropdown-content img {
+    
+    margin-right: 10px; /* Add margin-right for space between images */
+  }
+  </style>
+
+{% if request.session.form_submitted == 'form2Button2' %} 
+  <div class="dropdown" id="mydivi" >
+  <p>Download</p>
+  <div class="dropdown-content" style="width: 120px;" >
+    <a href="/download_table/?format=csv">
+      <img src="{% static './Assets/csv-file.png' %}" alt="Description of the image">
+    </a>
+    <a href="/download_table/?format=xlsx">
+      <img src="{% static './Assets/xlsx-file.png' %}" alt="Description of the image">
+    </a>
+    <a href="/download_table/?format=json">
+      <img src="{% static './Assets/json-file.png' %}" alt="Description of the image">
+    </a>
+  </div>
+</div>
+{% else %} here {% endif %}
+ 
+<div id="popup" class="popup">
+  <button onclick="hidePopup()" class="x-mark">X</button>
+  {% if found %}
+  <p class="description">Do You want to replace ?</p>
+  {% else %}
+  <p class="description">Do You want to save ?</p>
+  {% endif %}
+  <button id="yesBtn" onclick="hidePopup()" class="disable-btn">Yes</button>
+  <button id="noBtn" onclick="hidePopup()" class="cancel-btn">No</button>
+</div>
+<div id="popup-overlay" class="popup-overlay"></div>
+<script>
+  function showPopup(clicked) {
+	alert(clicked)
+	document.getElementById("selected_butotn").value = clicked;
+    event.preventDefault();
+    document.getElementById("popup").classList.add("open");
+    document.getElementById("popup-overlay").classList.add("open");
+  }
+
+  function hidePopup() {
+    document.getElementById("popup").classList.remove("open");
+    document.getElementById("popup-overlay").classList.remove("open");
+  }
+  // Handle button clicks
+  
+  document.getElementById("yesBtn").addEventListener("click", function() {
+    // Code to handle saving the form goes here
+    console.log("Form saved!");
+    
+    
+    document.getElementById("myForm").submit(); // Submit the form
+  });
+
+  document.getElementById("noBtn").addEventListener("click", function() {
+    // Code to handle when user chooses not to save
+    console.log("Form not saved!");
+    
+    document.getElementById("myForm").submit();
+  });
+</script>
+
+<div id="confirmationModal" class="popup">
+  <button onclick="hidePopups()" class="x-mark">X</button>
+  <p class="description">Are you sure you want to leave this page? You have not Downloaded!!.Your Data would be deleted..</p>
+  <button onclick="proceedWithDeletion()" class="disable-btn">Okay</button>
+  <button onclick="hidePopups()" class="cancel-btn">Cancel</button>
+</div>
+<div id="popup-overlays" class="popup-overlay"></div>
+<script>
+  function hidePopups() {
+    document.getElementById("confirmationModal").style.display = "none";
+    //document.getElementById("confirmationModal").classList.remove("open");
+    document.getElementById("popup-overlays").classList.remove("open");
+    
+  }
+</script>
+
+<div id="confirmationModals" class="popup">
+  <button onclick="hidePopupss()" class="x-mark">X</button>
+  <p class="description">Are you sure you want to leave this page? You have not Downloaded!!.Your Data would be deleted..</p>
+  <button onclick="proceedWithDeletions()" class="disable-btn">Okay</button>
+  <button onclick="hidePopupss()" class="cancel-btn">Cancel</button>
+</div>
+<div id="popup-overlayss" class="popup-overlay"></div>
+<script>
+  function hidePopupss() {
+    document.getElementById("confirmationModals").style.display = "none";
+    //document.getElementById("confirmationModal").classList.remove("open");
+    document.getElementById("popup-overlayss").classList.remove("open");
+    
+  }
+</script>
+ <script>
+  function activateModal() {
+    var modal = document.getElementById('confirmationModals');
+    
+    // Show the modal
+    if (modal) {
+      modal.style.display = 'block';
+      document.getElementById("popup-overlayss").classList.add("open");
+    }
+  }
+  window.addEventListener('popstate', function(event) {
+    activateModal();
+  });
+  
+  // Override the default behavior of the browser's back button
+  window.addEventListener('load', function() {
+    history.pushState({}, '');
+  });
+  
+  window.addEventListener('popstate', function(event) {
+    activateModal();
+    history.pushState({}, '');
+  });
+  
+</script> 
+
+<script>
+  function goBack() {
+    window.history.back();
+  }
+ </script>
+ 
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <script>
+  var showModal = false;
+  var backButton = document.getElementById("backButton");
+
+backButton.addEventListener("click", function(event) {
+  
+  event.preventDefault(); // Prevent the default click behavior
+ 
+
+  // Show the prompt modal
+  showModal = true;
+  targetURL = document.referrer; // Get the previous URL from the browser history
+  
+  document.getElementById("confirmationModals").style.display = "block";
+  document.getElementById("popup-overlayss").classList.add("open");
+});
+function proceedWithDeletions() {
+  console.log("in")
+  var request = new XMLHttpRequest();
+  request.open('GET', '/delete_data', true);
+  request.send();
+
+  request.onreadystatechange = function() {
+    if (request.readyState === XMLHttpRequest.DONE) {
+      if (request.status === 200) {
+        console.log('Record deleted successfully');
+        approve();
+      } else {
+        console.log(request.status)
+        console.log('Failed to delete record');
+        decline();
+      }
+    }
+  };
+}
+function approve() {
+  console.log("inside")
+  window.location.href = "/uploadpage";
+  showModal = false;
+}
+
+// Cancel button click event
+function decline() {
+  showModal = false;
+  document.getElementById("confirmationModals").style.display = "none";
+}
+function showConfirmationModal() {
+  // Get the modal element
+  var modal = document.getElementById("confirmationModals");
+
+  // Display the modal
+  modal.style.display = "block";
+}
+
+ </script>
+<script>
+var showModal = false; // Flag to track if the prompt modal should be shown
+var targetURL = ""; // Store the target URL
+
+
+
+// Attach event listeners to all links on the page
+if (window.location.pathname === "/docmapping") {
+  alert('inside pathname condition')
+  var links = Array.from(document.getElementsByTagName("a"));
+  for (var i = 0; i < links.length; i++) {
+    links[i].addEventListener("click", function(event) {
+      event.preventDefault(); // Prevent the default link behavior
+
+      var currentURL = this.getAttribute("href");
+      console.log(currentURL);
+
+      if (currentURL !== "/docmapping" ) {
+        console.log("in")
+        if (currentURL == "/download_table/?format=csv") {
+          console.log("csv")
+          showModal = false;          
+          document.getElementById("confirmationModal").style.display = "none";
+          //document.getElementById("confirmationModal").classList.remove("open");
+          //document.getElementById("popup-overlays").classList.remove("open");
+          setTimeout(function() {
+            window.location.href = currentURL; // Proceed with the action after a short delay
+          }, 100);
+        }else if (currentURL == "/download_table/?format=xlsx") {
+          showModal = false;          
+          document.getElementById("confirmationModal").style.display = "none";
+          //document.getElementById("confirmationModal").classList.remove("open");
+          //document.getElementById("popup-overlays").classList.remove("open");
+          setTimeout(function() {
+            window.location.href = currentURL; // Proceed with the action after a short delay
+          }, 100);
+        }else if (currentURL == "/download_table/?format=json") {
+          showModal = false;          
+          document.getElementById("confirmationModal").style.display = "none";
+          //document.getElementById("confirmationModal").classList.remove("open");
+          //document.getElementById("popup-overlays").classList.remove("open");
+          setTimeout(function() {
+            window.location.href = currentURL; // Proceed with the action after a short delay
+          }, 100);
+        }else if (currentURL == "/preview/") {
+          showModal = false;          
+          document.getElementById("confirmationModal").style.display = "none";
+          //document.getElementById("confirmationModal").classList.remove("open");
+          //document.getElementById("popup-overlays").classList.remove("open");
+          setTimeout(function() {
+            window.location.href = currentURL; // Proceed with the action after a short delay
+          }, 100);
+        }else{
+       
+        
+        //event.preventDefault(); // Prevent the default click behavior
+        
+        // Set the flag to show the prompt modal
+        showModal = true;
+        targetURL = currentURL; // Store the target URL
+
+        // Show the prompt modal
+        document.getElementById("confirmationModal").style.display = "block";
+        //document.getElementById("confirmationModal").classList.add("open");
+        document.getElementById("popup-overlays").classList.add("open");
+        }
+      }
+    
+    });
+  }
+}
+
+
+// Proceed button click event
+function proceedWithDeletion() {
+  var request = new XMLHttpRequest();
+  request.open('GET', '/delete_data', true);
+  request.send();
+
+  request.onreadystatechange = function() {
+    if (request.readyState === XMLHttpRequest.DONE) {
+      if (request.status === 200) {
+        console.log('Record deleted successfully');
+        proceed();
+      } else {
+        console.log('Failed to delete record');
+        cancel();
+      }
+    }
+  };
+}
+
+function proceed() {
+  showModal = false;
+  document.getElementById("confirmationModal").style.display = "none";
+  if (targetURL) {
+    setTimeout(function() {
+      window.location.href = targetURL; // Proceed with the action after a short delay
+    }, 100);
+  }
+}
+
+
+// Cancel button click event
+function cancel() {
+  showModal = false;
+  document.getElementById("confirmationModal").style.display = "none";
+}
+
+  
+</script>
+
+ 
+<style>
+  /* CSS styles for the modal */
+  .modals {
+    display: none; /* Hide the modal by default */
+    /* Add your custom styles here */
+  }
+</style>
+<script>
+  // Function to display the modal
+  function showModal() {
+    var modal = document.getElementById("confirmationModal");
+    modal.style.display = "block"; // Show the modal
+  }
+
+  // Function to close the modal
+  function closeModal() {
+    var modal = document.getElementById("confirmationModal");
+    modal.style.display = "none"; // Hide the modal
+  }
+
+  // Event listener to trigger the modal when a link is clicked
+  document.addEventListener("click", function(event) {
+    var target = event.target;
+    if (target.tagName === "A" && target.href.includes("docmapping")) {
+      // Show the modal
+      showModal();
+
+      // Prevent the link from being followed immediately
+      event.preventDefault();
+    }
+  });
+</script>
+
+
+
+</body>
+</html>
+ 
+
+<div id="imagePreview"> </div>
+<style>
+  #imagePreview {
+      position: relative;
+      top: -80px; /* Adjust the value as per your requirement */
+  }
+</style>
+<style>
+  #swipe-left {
+      position: relative;
+      top: +6px; /* Adjust the value as per your requirement */
+  }
+</style>
+<style>
+  #swipe-right {
+    position: relative;
+      top: +6px;
+      transform: translateX(700px);       
+}
+</style>
+
+
+</div>
+</div> 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      var container = $('.table-container');
+      var scrollAmount = 200; // Adjust the scroll amount as needed
+      
+      // Swipe left
+      $('#swipe-left').click(function() {
+        container.animate({scrollLeft: '-=' + scrollAmount}, 500);
+      });
+      
+      // Swipe right
+      $('#swipe-right').click(function() {
+        container.animate({scrollLeft: '+=' + scrollAmount}, 500);
+      });
+    });
+  </script>
+
+
+  <script>
+    
+  function toggleAccordion(accordionId) {
+    
+    var accordionContent = document.getElementById(accordionId);
+    accordionContent.style.display = accordionContent.style.display === 'none' ? 'block' : 'none';
+  }
+  
+  function submitAccordion(hideAccordionId, showAccordionId) {
+    var hideAccordion = document.getElementById(hideAccordionId);
+    var showAccordion = document.getElementById(showAccordionId);
+    
+    hideAccordion.style.display = 'block';
+    showAccordion.style.display = 'none';
+    
+  }
+  
+ 
+  
+</script>
+
+
+
+
+
+ 
+  
+  
+ 
+
+
+<script>
+    const input1 = document.getElementById('input_1');
+    const input2 = document.getElementById('input_2');
+    const input3 = document.getElementById('input_3');
+    const input4 = document.getElementById('input_4');
+    const input5 = document.getElementById('input_5');
+    const input6 = document.getElementById('input_6');
+    const input7 = document.getElementById('input_7');
+    const input8 = document.getElementById('input_8');
+    const input9 = document.getElementById('input_9');
+    const input10 = document.getElementById('input_10');
+    const input11 = document.getElementById('input_11');
+    const input12 = document.getElementById('input_12');
+    const input13 = document.getElementById('input_13');
+    const input14 = document.getElementById('input_14');
+    const input15 = document.getElementById('input_15');
+    const input16 = document.getElementById('input_16');
+    const input17 = document.getElementById('input_17');
+    const input18 = document.getElementById('input_18');
+    const input19 = document.getElementById('input_19');
+    const input20 = document.getElementById('input_20');
+    const input21 = document.getElementById('input_21');
+    const input22 = document.getElementById('input_22');
+    const input23 = document.getElementById('input_23');
+    const input24 = document.getElementById('input_24');
+    const input25 = document.getElementById('input_25');
+    const input26 = document.getElementById('input_26');
+    const input27 = document.getElementById('input_27');
+    const input28 = document.getElementById('input_28');
+    const input29 = document.getElementById('input_29');
+    const input30 = document.getElementById('input_30');
+
+   
+    const checkbox1 = document.getElementById('checkbox_1');
+    const checkbox2 = document.getElementById('checkbox_2');
+    const checkbox3 = document.getElementById('checkbox_3');
+    const checkbox4 = document.getElementById('checkbox_4');
+    const checkbox5 = document.getElementById('checkbox_5');
+    const checkbox6 = document.getElementById('checkbox_6');
+    const checkbox7 = document.getElementById('checkbox_7');
+    const checkbox8 = document.getElementById('checkbox_8');
+    const checkbox9 = document.getElementById('checkbox_9');
+    const checkbox10 = document.getElementById('checkbox_10');
+    const checkbox11 = document.getElementById('checkbox_11');
+    const checkbox12 = document.getElementById('checkbox_12');
+    const checkbox13 = document.getElementById('checkbox_13');
+    const checkbox14 = document.getElementById('checkbox_14');
+    const checkbox15 = document.getElementById('checkbox_15');
+
+    // Add event listener to the checkbox
+    checkbox1.addEventListener('click', function() {
+      if (checkbox1.checked) {
+        input1.disabled = false;
+        input2.disabled = false;
+
+      } else {
+        input1.disabled = true;
+        input2.disabled = true;
+        checkbox1.value = '';
+      }
+    });
+
+    checkbox2.addEventListener('click', function() {
+        if (checkbox2.checked) {
+          input3.disabled = false;
+          input4.disabled = false;
+        } else {
+          input3.disabled = true;
+          input4.disabled = true;
+        }
+    });
+
+    checkbox3.addEventListener('click', function() {
+        if (checkbox3.checked) {
+          input5.disabled = false;
+          input6.disabled = false;
+        } else {
+          input5.disabled = true;
+          input6.disabled = true;
+        }
+    });
+
+    checkbox4.addEventListener('click', function() {
+        if (checkbox4.checked) {
+          input7.disabled = false;
+          input8.disabled = false;
+        } else {
+          input7.disabled = true;
+          input8.disabled = true;
+        }
+    });
+
+    checkbox5.addEventListener('click', function() {
+        if (checkbox5.checked) {
+          input9.disabled = false;
+          input10.disabled = false;
+        } else {
+          input9.disabled = true;
+          input10.disabled = true;
+        }
+    });
+
+    checkbox6.addEventListener('click', function() {
+        if (checkbox6.checked) {
+          input11.disabled = false;
+          input12.disabled = false;
+        } else {
+          input11.disabled = true;
+          input12.disabled = true;
+        }
+    });
+
+    checkbox7.addEventListener('click', function() {
+        if (checkbox7.checked) {
+          input13.disabled = false;
+          input14.disabled = false;
+          checkbox7.value = 'SELECTED';
+        } else {
+          input13.disabled = true;
+          input14.disabled = true;
+          checkbox7.value = '';
+        }
+    });
+
+    checkbox8.addEventListener('click', function() {
+        if (checkbox8.checked) {
+          input15.disabled = false;
+          input16.disabled = false;
+        } else {
+          input15.disabled = true;
+          input16.disabled = true;
+        }
+    });
+
+    checkbox9.addEventListener('click', function() {
+        if (checkbox9.checked) {
+          input17.disabled = false;
+          input18.disabled = false;
+        } else {
+          input17.disabled = true;
+          input18.disabled = true;
+        }
+    });
+
+    checkbox10.addEventListener('click', function() {
+        if (checkbox10.checked) {
+          input19.disabled = false;
+          input20.disabled = false;
+        } else {
+          input19.disabled = true;
+          input20.disabled = true;
+        }
+    });
+    checkbox11.addEventListener('click', function() {
+        if (checkbox11.checked) {
+          input21.disabled = false;
+          input22.disabled = false;
+        } else {
+          input21.disabled = true;
+          input22.disabled = true;
+        }
+    });
+
+    checkbox12.addEventListener('click', function() {
+        if (checkbox12.checked) {
+          input23.disabled = false;
+          input24.disabled = false;
+        } else {
+          input23.disabled = true;
+          input24.disabled = true;
+        }
+    });
+
+    checkbox13.addEventListener('click', function() {
+        if (checkbox13.checked) {
+          input25.disabled = false;
+          input26.disabled = false;
+        } else {
+          input25.disabled = true;
+          input26.disabled = true;
+        }
+    });
+
+    checkbox14.addEventListener('click', function() {
+        if (checkbox14.checked) {
+          input27.disabled = false;
+          input28.disabled = false;
+        } else {
+          input27.disabled = true;
+          input28.disabled = true;
+        }
+    });
+
+    checkbox15.addEventListener('click', function() {
+        if (checkbox15.checked) {
+          input29.disabled = false;
+          input30.disabled = false;
+        } else {
+          input29.disabled = true;
+          input30.disabled = true;
+        }
+      });
+
+
+
+</script>
+
+
+    <script>
+      const dropZone = document.querySelector('.drop-zone');
+      const fileInput = document.querySelector('#file-input');
+      const fileName = document.querySelector('#file-name');
+    
+      dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('drop-zone--over');
+      });
+    
+      dropZone.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('drop-zone--over');
+      });
+    
+      dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('drop-zone--over');
+        fileInput.files = e.dataTransfer.files;
+        fileName.textContent = fileInput.files[0].name;
+      });
+    
+      fileInput.addEventListener('change', (e) => {
+      fileName.textContent = fileInput.files[0].name;
+    });
+
+    fileInput.addEventListener('input', (e) => {
+      fileName.textContent = fileInput.value.split('\\').pop();
+    });
+  
+    </script>
+  
+
+
+ 
+
+
+
+{% endblock %}

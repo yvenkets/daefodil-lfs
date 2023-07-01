@@ -1,0 +1,61 @@
+{% extends 'userdashboard.html' %}
+{% load static %}
+
+{% block content %}
+
+            <main class="main-container">
+                <form action="" method="POST" >
+        
+                    {%csrf_token%}
+                    <div class="form main_container">
+                        <h1>Edit User</h1>
+                        <div class="form_container w100">
+                            
+                            <div class="input_container">
+                                <label for="lastname" class="form_label"
+                                >Client Name</label
+                                >
+                                <select
+                                class="form_control"
+                                id="lastname"
+                                placeholder="Client Name" name="cname" required
+                                >
+                                {% for x in client %}
+                                    {% if x.dlm_cust_tntid == tntid %} 
+                                        <option value="{{ x.iddlm_cust }}" {% if x.iddlm_cust == user.dlm_custuser_custid %} selected {% endif %}>{{ x.dlm_cust_nam }}</option>
+                                    {% endif %}
+                                {% endfor %}  
+                                </select>
+                            </div>
+                            <div class="input_container">
+                                <label for="lastname" class="form_label"
+                                >User Name</label
+                                >
+                                <input 
+                                class="form_control"
+                                id="lastname"
+                                placeholder="User Name" type="email" name="uname" value="{{user.dlm_custuser_code}}"  required
+                                />
+                            </div>
+                            {% if messages %}
+                                <ul class="messages-list">
+                                    {% for message in messages %}
+                                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                            <button class="btn w100" type="submit">Update</button>
+                        </div>
+                    </div>
+                </form>
+            </main>
+      
+          
+        
+      
+    
+  
+
+
+
+{% endblock %}

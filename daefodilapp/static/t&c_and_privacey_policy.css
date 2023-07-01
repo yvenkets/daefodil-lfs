@@ -1,0 +1,51 @@
+body{
+	margin: 0;
+}
+.container{
+	padding: 50px;
+	background: #F5F5F5;
+	height: auto;
+	font-family: 'Montserrat', sans-serif;
+}
+.inner-box{
+	background: #fff;
+    text-align: center;
+    padding: 40px;
+    width: 100%;
+    margin: auto;    
+}
+.fa-check-circle-o, .fa-times-circle-o{
+	font-weight: 400 !important;
+	color: #00B960;
+	font-size: 54px !important;
+}
+.page-heading{
+font-style: normal;
+font-weight: 700;
+font-size: 28px;
+line-height: 1.8;
+color: #1578FD;
+padding: 10px 0px;
+margin: 0;
+}
+.title-box{
+font-family: 'Montserrat', sans-serif;
+font-style: normal;
+font-weight: 500;
+font-size: 15px;
+color: #FFFFFF;
+background: #1578FD;
+text-align: left;
+line-height: 1.8;
+padding: 10px 30px;
+}
+.desc-box{
+	font-family: 'Montserrat', sans-serif;
+font-style: normal;
+font-weight: 500;
+line-height: 1.8;
+font-size: 15px;
+color: #000000;
+text-align: left;
+padding: 15px 0px;
+}

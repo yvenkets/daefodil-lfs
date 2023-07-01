@@ -1,0 +1,154 @@
+{% extends 'userdashboard.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="title-button">
+    <div><h3>CLIENT DETAILS</h3></div>
+    {% comment %} <div>
+        <button class="upload_btn"><a href="{% url 'addclient' %}" style="text-decoration:none;color:white">Add Client</a></button>
+    </div> {% endcomment %}
+  </div>
+  <div class="tabBox">
+    
+
+    <div class="tabContainer">
+      <div id="tab1" class="tabContent">
+        
+        <div class="table_container" style="overflow-x: auto;">
+          <table id="myTable" style="border-collapse: collapse">
+            <thead class="table-header">
+              <tr class="table-row">
+                
+                <th class="table-head">Tenant Name</th>
+                <th class="table-head">Client ID</th>
+                <th class="table-head">Client Name</th>
+                <th class="table-head">Client Contact No</th>
+                <th class="table-head">Client Email</th>
+                <th class="table-head">Client Status</th>
+                <th class="table-head">Created Date</th>
+                <th class="table-head">Action</th> 
+              </tr>
+            </thead>
+            <tbody class="table-body">
+                
+                
+                
+                {% for m in distinct_tntid_list %}
+
+                <tr class="table-row">
+         
+                    {% for k in tenant %}
+                    {% if m == k.iddlm_tenant %}
+                        <td>{{k.dlm_tenant_nam}}</td>
+                    {% endif %}
+                    {% endfor %}
+                    <td class="table-data"></td>
+                    <td class="table-data"></td>
+                    <td class="table-data"></td>
+                    <td class="table-data"></td>
+                    <td class="table-data"></td>
+                    <td class="table-data"></td>
+                    
+                    <td class="table-data" style="display: flex">
+                        {% comment %} <div class="status2"><a href="/editclient/{{ i.iddlm_cust }}">Edit</a></div> {% endcomment %}
+                        {% comment %} <div class="Click-here"><a href="/disableclient/{{ i.iddlm_cust }}" id="disableLink_{{ i.iddlm_cust }}" style="text-decoration: none;color: #9A3412;">Disable</a></div> {% endcomment %}
+                    </td>
+                    
+                    {% comment %} {% endif %} {% endcomment %}
+                </tr> 
+                
+                {% for i in client %}
+                    {% if i.dlm_cust_tntid == m %}
+                    {% if i.dlm_cust_email != username %}
+                    <tr>
+                        <td> </td>
+                        <td class="table-data">{{i.iddlm_cust }}</td>
+                        <td class="table-data">{{i.dlm_cust_nam }}</td>
+                        <td class="table-data">{{i.dlm_cust_mobnum }}</td>
+                        <td class="table-data">{{i.dlm_cust_email }}</td>
+                        <td class="table-data">{{i.dlm_cust_status }}</td>
+                        <td class="table-data">{{i.dlm_cust_cdate}}</td>
+                        
+                         {% comment %} <td class="table-data" style="display: flex"><div class="status2" ><a href="/editclient/{{ i.iddlm_cust }}">Edit</a></div><div class="Click-here">Disable</div></td> {% endcomment %}
+                         
+                         <td class="table-data" style="display: flex">
+                          {% comment %} <div class="status2"><a href="/editclient/{{ i.iddlm_cust }}">Edit</a></div> {% endcomment %}
+                            {% if i.dlm_cust_status == 'active' %}
+                          <div class="Click-here"><a href="/deleteClient/{{ i.iddlm_cust }}" id="disableLink_{{ i.iddlm_cust }}" style="text-decoration: none;color: #9A3412;">Disable</a></div>
+                            {% else %} 
+                            <div class="Click-here"><a href="/ActiveClient/{{ i.iddlm_cust }}" id="disableLink_{{ i.iddlm_cust }}" style="text-decoration: none;color: #9A3412;">Activate</a></div> 
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                    {% endfor %}
+              </tr>
+              
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      
+    </div>
+  </div>
+  <div class="custom-model-main">
+    <div class="custom-model-inner">        
+      <div class="close-modal" style="position:absolute;right:0;top:-30px;color:#fff;cursor:pointer"><i class='bx bxs-x-circle'></i></div>
+      <div class="custom-model-wrap">
+        <div class="pop-up-content-wrap">
+          <div class="content-button">
+            <h3>Are you sure you want to disable this user?</h3><br>
+            <div class="disabling">
+              <button class="disableButton" data-href="" data-user-id="">Disable</button>
+            </div>
+            <div class="close-btn">
+              <button>Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>  
+    </div>  
+    <div class="bg-overlay"></div>
+  </div>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script>
+    $(".Click-here ").on('click', function() {
+      $(".custom-model-main").addClass('model-open');
+    }); 
+    $(".close-btn, .bg-overlay").click(function(){
+      $(".custom-model-main").removeClass('model-open');
+    });
+    $(".close-modal, .bg-overlay").click(function(){
+      $(".custom-model-main").removeClass('model-open');
+    });
+    // usertable/clienttable destroy
+    $(".Click-here a").on('click', function(event) {
+      event.preventDefault();
+      const userId = this.href.split('/').pop(); // get the user ID from the link href
+      const disableButton = document.querySelector('.disableButton');
+      disableButton.dataset.userId = userId; // set the user ID as data attribute
+      disableButton.dataset.href = this.href.replace('/' + userId, ''); // set the href value as data attribute without user ID
+      $(".custom-model-main").addClass('model-open');
+    }); 
+    
+    $(".close-btn, .bg-overlay, .close-modal").click(function(){
+      $(".custom-model-main").removeClass('model-open');
+    });
+    
+    $(".disableButton").click(function(event) {
+      event.preventDefault();
+      const href = this.dataset.href+ '/' + this.dataset.userId; // get the href value without user ID
+      if (href) {
+        window.location.href = href;
+      }
+    });
+    
+
+    
+    </script>
+  {% endblock %}

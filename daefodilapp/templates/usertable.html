@@ -1,0 +1,159 @@
+{% extends 'userdashboard.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<div class="title-button">
+    <div><h3>DOCUMENT USER DETAILS</h3></div>
+    <div>
+        <button class="upload_btn"><a href="{% url 'adduser' %}" style="text-decoration:none;color:white">Add User</a></button>
+    </div>
+  </div>
+  <div class="tabBox">
+    
+
+    <div class="tabContainer">
+      <div id="tab1" class="tabContent">
+        
+        <div class="table_container" style="overflow-x: auto;">
+          <table id="myTable" style="border-collapse: collapse">
+            <thead class="table-header">
+              <tr class="table-row">
+                
+                <th class="table-head">User ID</th>
+                <th class="table-head">Group ID</th>
+                <th class="table-head">Client Name</th>
+                <th class="table-head">User Code</th>
+                <th class="table-head">User Type</th>
+                <th class="table-head">User Status</th>
+                <th class="table-head">Created Date</th>
+                <th class="table-head">Action</th>
+              </tr>
+            </thead>
+            <tbody class="table-body">
+              <tr class="table-row">
+                {% comment %} {% for i in user %}
+                      {% if i.dlm_custuser_custid == userclientid and i.dlm_custuser_code != username %}
+                      <tr>
+                          <td class="table-data">{{i.iddlm_custuser }}</td>
+                          <td class="table-data">{{i.dlm_custuser_grpid }}</td>
+                          <td class="table-data">{{i.dlm_custuser_custid }}</td>
+                          <td class="table-data">{{i.dlm_custuser_code }}</td>
+                          <td class="table-data">{{i.dlm_custuser_type }}</td>
+                          <td class="table-data">{{i.dlm_custuser_status }}</td>
+                          <td class="table-data">{{i.dlm_custuser_date}}</td>
+                          
+                          <td class="table-data" style="display: flex"><div class="status2" ><a href="/edituser/{{ i.iddlm_custuser }}">Edit</a></div><div class="Click-here"><a href="/disableuser/{{ i.iddlm_custuser }}" id="disableLink" style="text-decoration: none;">Disable</a></div></td>
+                          
+                      </tr>
+                      {% endif %}
+                      {% endfor %} {% endcomment %}
+                      {% for i in user %}
+                      {% if i.dlm_custuser_custid == userclientid and i.dlm_custuser_code != username %}
+                        <tr>
+                          <td class="table-data">{{i.iddlm_custuser }}</td>
+                          <td class="table-data">{{i.dlm_custuser_grpid }}</td>
+                          {% for k in client %}
+                          {% if i.dlm_custuser_custid == k.iddlm_cust %}
+                            <td>{{k.dlm_cust_nam}}</td>
+                          {% endif %}
+                          {% endfor %}
+                          <td class="table-data">{{i.dlm_custuser_code }}</td>
+                          <td class="table-data">{{i.dlm_custuser_type }}</td>
+                          <td class="table-data">{{i.dlm_custuser_status }}</td>
+                          <td class="table-data">{{i.dlm_custuser_date}}</td>
+                                                
+                          <td class="table-data" style="display: flex">
+                            <div class="status2"><a href="/edituser/{{ i.iddlm_custuser }}">Edit</a></div>
+                            {% if i.dlm_custuser_status == 'active' %}
+                          <div class="Click-here"><a href="/disableuser/{{ i.iddlm_custuser }}" id="disableLink_{{  i.iddlm_custuser }}" style="text-decoration: none;color: #9A3412;">Disable</a></div>
+                            {% else %} 
+                            <div class="Click-here"><a href="/activateuser/{{ i.iddlm_custuser }}" id="disableLink_{{  i.iddlm_custuser }}" style="text-decoration: none;color: #9A3412;">Activate</a></div> 
+                            {% endif %}
+
+                          </td>
+                        </tr>
+                      {% endif %}
+                      {% endfor %}
+              </tr>
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      
+    </div>
+
+  </div>
+  {% comment %} <div class="custom-model-main">
+    <div class="custom-model-inner">        
+    <div class="close-modal" style="position:absolute;right:0;top:-30px;color:#fff;cursor:pointer"><i class='bx bxs-x-circle'></i></div>
+        <div class="custom-model-wrap">
+            <div class="pop-up-content-wrap">
+                <div class="content-button"><h3>Are you sure you want to disable this user?</h3><br>
+                  <div class="disabling"><button class="disableButton" data-href="" data-user-id="{{ i.iddlm_custuser }}">Disable</button></div>
+                  <div class="close-btn"><button >Cancel</button></div>
+                </div>
+            </div>
+        </div>  
+    </div>  
+    <div class="bg-overlay"></div>
+  </div> {% endcomment %}
+  <div class="custom-model-main">
+    <div class="custom-model-inner">        
+      <div class="close-modal" style="position:absolute;right:0;top:-30px;color:#fff;cursor:pointer"><i class='bx bxs-x-circle'></i></div>
+      <div class="custom-model-wrap">
+        <div class="pop-up-content-wrap">
+          <div class="content-button">
+            <h3>Are you sure you want to disable this user?</h3><br>
+            <div class="disabling">
+              <button class="disableButton" data-href="" data-user-id="">Disable</button>
+            </div>
+            <div class="close-btn">
+              <button>Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>  
+    </div>  
+    <div class="bg-overlay"></div>
+  </div>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script>
+    $(".Click-here ").on('click', function() {
+      $(".custom-model-main").addClass('model-open');
+    }); 
+    $(".close-btn, .bg-overlay").click(function(){
+      $(".custom-model-main").removeClass('model-open');
+    });
+    $(".close-modal, .bg-overlay").click(function(){
+      $(".custom-model-main").removeClass('model-open');
+    });
+    // usertable/clienttable destroy
+    $(".Click-here a").on('click', function(event) {
+      event.preventDefault();
+      const userId = this.href.split('/').pop(); // get the user ID from the link href
+      const disableButton = document.querySelector('.disableButton');
+      disableButton.dataset.userId = userId; // set the user ID as data attribute
+      disableButton.dataset.href = this.href.replace('/' + userId, ''); // set the href value as data attribute without user ID
+      $(".custom-model-main").addClass('model-open');
+    }); 
+    
+    $(".close-btn, .bg-overlay, .close-modal").click(function(){
+      $(".custom-model-main").removeClass('model-open');
+    });
+    
+    $(".disableButton").click(function(event) {
+      event.preventDefault();
+      const href = this.dataset.href+ '/' + this.dataset.userId; // get the href value without user ID
+      if (href) {
+        window.location.href = href;
+      }
+    });
+    
+
+    
+    </script>
+  {% endblock %}

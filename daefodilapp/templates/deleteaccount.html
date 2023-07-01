@@ -1,0 +1,18 @@
+{% extends 'userdashboard.html' %}
+{% load static %}
+
+{% block content %}
+<main
+class="main-container"
+>
+<form method="post">
+    {% csrf_token %}
+<h3 style="margin-left:15px">Are You Sure want to delete your account?</h3>
+<div class="delete-account">
+    <div class="delete-yes-button"><a href="">Yes, delete my account</a></div>
+    <div class="delete-no-button"><a href="{% url 'userdetails' %}" >Cancel</a><div>
+</div>
+</form>
+</main>
+
+{% endblock %}

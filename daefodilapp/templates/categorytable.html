@@ -1,0 +1,52 @@
+{% extends 'userdashboard.html' %}
+{% load static %}
+
+{% block content %}
+<div class="title-button">
+    <div><h3>DOCUMENT CATEGORY DETAILS</h3></div>
+    <div>
+        <button class="upload_btn"><a href="{% url 'addcategory' %}" style="text-decoration:none;color:white">Add Category</a></button>
+    </div>
+  </div>
+  <div class="tabBox">
+    <div class="tabContainer">
+      <div id="tab1" class="tabContent">
+       
+        <div class="table_container" style="overflow-x: auto;">
+          <table id="myTable" style="border-collapse: collapse;">
+            <thead class="table-header">
+              <tr class="table-row">
+                
+                <th class="table-head">Category ID</th>
+                <th class="table-head">Category Name</th>
+                <th class="table-head">Category Group</th>
+                <th class="table-head">Created Date</th>
+                <th class="table-head">Created By</th>
+                <th class="table-head">Action</th>
+              </tr>
+            </thead>
+            <tbody class="table-body">
+              
+                {% for cat in cat %}
+                    <tr class="table-row">
+                        <td class="table-data">{{cat.iddlm_doctype }}</td>
+                        <td class="table-data">{{cat.dlm_doctype_nam }}</td>
+                        <td class="table-data">{{cat.dlm_doctype_catgrp }}</td>
+                        <td class="table-data">{{cat.dlm_doctype_cdate}}</td>
+                        <td class="table-data">{{cat.dlm_doctype_cby}}</td>
+                        <td class="table-data" style="display: flex"><div class="status2" ><a  href="/editcategory/{{ cat.iddlm_doctype }}">Edit</a></div><div class="status3"><a  href="/deletecategory/{{cat.iddlm_doctype}}">Delete</a></div></td>
+                        
+                    </tr>
+                {% endfor %}
+                
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+{% endblock %}

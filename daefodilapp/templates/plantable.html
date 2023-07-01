@@ -1,0 +1,68 @@
+{% extends 'userdashboard.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="title-button">
+    <div><h3>DOCUMENT PLAN DETAILS</h3></div>
+    <div>
+        <button class="upload_btn"><a href="{% url 'addplan' %}" style="text-decoration:none;color:white">Add Plan</a></button>
+    </div>
+  </div>
+  <div class="tabBox">
+    
+
+    <div class="tabContainer">
+      <div id="tab1" class="tabContent">
+        
+        <div class="table_container" style="overflow-x: auto;">
+          <table id="myTable" style="border-collapse: collapse">
+            <thead class="table-header">
+              <tr class="table-row">
+                
+                <th class="table-head">S.NO</th>
+                <th class="table-head">Plan Name</th>
+                <th class="table-head">Transaction Count</th>
+                <th class="table-head">User Count</th>
+                <th class="table-head">File Size</th>
+                <th class="table-head">Category Size</th>
+                <th class="table-head">Created Date</th>
+                <th class="table-head">Created By</th>
+                <th class="table-head">Plan Category Group</th>
+                <th class="table-head">Plan UserType</th>
+                <th class="table-head">Status</th>
+                <th class="table-head">Feature Id</th>
+                <th class="table-head">Action</th>
+               
+              </tr>
+            </thead>
+            <tbody class="table-body">
+              {% for plan in plans %}
+                <tr class="table-row">
+                  <td class="table-data">{{plan.iddlm_plan }}</td>
+                  <td class="table-data">{{plan.dlm_plan_nam}}</td>
+                  <td class="table-data">{{plan.dlm_plan_trncnt}}</td>
+                  <td class="table-data">{{plan.dlm_plan_usrcnt}}</td>
+                  <td class="table-data">{{plan.dlm_plan_filesize}}</td>
+                  <td class="table-data">{{plan.dlm_plan_catsize}}</td>
+                  <td class="table-data">{{plan.dlm_plan_cdate}}</td>
+                  <td class="table-data">{{plan.dlm_plan_cby}}</td>
+                  <td class="table-data">{{plan.dlm_plan_catgrp}}</td>
+                  <td class="table-data">{{plan.dlm_plan_usrtype}}</td>
+                  <td class="table-data">{{plan.dlm_plan_status}}</td>
+                  <td class="table-data">{{plan.dlm_plan_featureid}}</td>
+                  <td class="table-data" style="display: flex"><div class="status2" ><a  href="/editplan/{{ plan.iddlm_plan }}">Edit</a></div><div class="status3"><a  href="/deleteplan/{{plan.iddlm_plan}}">Delete</a></div></td>
+              </tr>
+              {% endfor %}
+              
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,316 @@
+{% extends 'userdashboard.html' %}
+{% load static %}
+{%block content%}
+{% comment %} <style>
+    table {
+        margin-top: 30px;
+        
+        {% comment %} width:70%; 
+    }
+
+     td, th {
+        border: 2px solid #ffffff;
+        padding: 10px;
+    } 
+
+    td:nth-child(even) {
+        background-color: grey;
+    }
+    .inpu{
+        color:black;
+    }
+    .input{
+      color:black;
+  }
+</style> {% endcomment %}
+
+<form method ="POST">
+    {%csrf_token%}
+<center><h1>WELCOME TO DOCUMENT MAPPING!</h1>
+    <table style="border-collapse: collapse">
+ <tr class="table-row">
+     <td class="table-data"><b>SELECTED</b></td>
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_1" id="checkbox_1"> </td>
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_2" id="checkbox_2"> </td>
+     <td class="table-data"><input type="checkbox"  value="SELECTED" name="checkbox_3" id="checkbox_3"> </td>
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_4" id="checkbox_4"> </td>
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_5" id="checkbox_5"> </td>
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_6" id="checkbox_6"> </td>
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_7" id="checkbox_7"> </td>
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_8" id="checkbox_8"> </td>
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_9" id="checkbox_9"> </td>
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_10" id="checkbox_10"> </td>
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_11" id="checkbox_11"> </td>
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_12" id="checkbox_12"> </td>
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_13" id="checkbox_13"> </td>
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_14" id="checkbox_14"> </td>
+     <td class="table-data"><input type="checkbox" value="SELECTED" name="checkbox_15" id="checkbox_15"> </td>
+</tr>
+<tr>  
+     <th class="table-head">CUSTOM NAME</th>
+     <td class="table-data"><input type="text" class="inpu" id="input_2" name="input_1" disabled></td>
+     <td class="table-data"><input type="text" class="inpu" name="input_2" id="input_4" disabled></td>
+     <td class="table-data"><input type="text" class="inpu" name="input_3" id="input_6" disabled></td>
+     <td class="table-data"><input type="text" class="inpu" name="input_4" id="input_8" disabled></td>
+     <td class="table-data"><input type="text" class="inpu"  name="input_5" id="input_10" disabled></td>
+     <td class="table-data"><input type="text" class="inpu"  name="input_6" id="input_12" disabled></td>
+     <td class="table-data"><input type="text" class="inpu" name="input_7" id="input_14" disabled></td>
+     <td class="table-data"><input type="text" class="inpu"  name="input_8" id="input_16" disabled></td>
+     <td class="table-data"><input type="text" class="inpu" name="input_9" id="input_18" disabled></td>
+     <td class="table-data"><input type="text" class="inpu" name="input_10" id="input_20" disabled></td>
+     <td class="table-data"><input type="text" class="inpu" name="input_11" id="input_22" disabled></td>
+     <td class="table-data"><input type="text" class="inpu" name="input_12" id="input_24" disabled></td>
+     <td class="table-data"><input type="text" class="inpu" name="input_13" id="input_26" disabled></td>
+     <td class="table-data"><input type="text" class="inpu" name="input_14" id="input_28" disabled></td>
+     <td class="table-data"><input type="text" class="inpu"  name="input_15" id="input_30" disabled></td>
+</tr>
+<tr>
+
+     <th class="table-head">EXTRACTED COLUMNS</th>
+     <td class="table-data"><input type="text" class="input"  name="input1" value="{{data_dict.dlt_melements_1}}"  id="input_1" disabled readonly> </td>
+     <td class="table-data"><input type="text" class="input" name="input2" value="{{data_dict.dlt_melements_2}}" id="input_3" disabled readonly> </td>
+     <td class="table-data"><input type="text" class="input" name="input3" value="{{data_dict.dlt_melements_3}}" id="input_5" disabled readonly> </td>
+     <td class="table-data"><input type="text" class="input" name="input4" value="{{data_dict.dlt_melements_4}}" id="input_7" disabled readonly> </td>
+     <td class="table-data"><input type="text" class="input" name="input5" value="{{data_dict.dlt_melements_5}}" id="input_9" disabled readonly> </td>
+     <td class="table-data"><input type="text" class="input" name="input6" value="{{data_dict.dlt_melements_6}}" id="input_11" disabled readonly> </td>
+     <td class="table-data"><input type="text" class="input" name="input7" value="{{data_dict.dlt_melements_7}}" id="input_13" disabled readonly> </td>
+     <td class="table-data"><input type="text" class="input" name="input8" value="{{data_dict.dlt_melements_8}}" id="input_15"disabled readonly> </td>
+     <td class="table-data"><input type="text" class="input" name="input9" value="{{data_dict.dlt_melements_9}}" id="input_17" disabled readonly> </td>
+     <td class="table-data"><input type="text" class="input" name="input10" value="{{data_dict.dlt_melements_10}} " id="input_19" disabled readonly> </td>
+     <td class="table-data"><input type="text" class="input" name="input11" value="{{data_dict.dlt_melements_11}}" id="input_21" disabled readonly> </td>
+     <td class="table-data"><input type="text" class="input" name="input12" value="{{data_dict.dlt_melements_12}}" id="input_23" disabled readonly> </td>
+     <td class="table-data"><input type="text" class="input"  name="input13" value="{{data_dict.dlt_melements_13}}" id="input_25"  disabled readonly> </td>
+     <td class="table-data"><input type="text" class="input" name="input14" value="{{data_dict.dlt_melements_14}}" id="input_27" disabled readonly> </td>
+     <td class="table-data"><input type="text" class="input" name="input15" value="{{data_dict.dlt_melements_15}}" id="input_29" disabled readonly> </td>
+     
+</tr>
+<tr>   
+      <th>EXTRACTED COLUMN VALUES</th>
+      <td class="table-data">{{elements.dlt_melements_1}}</td>
+     <td>{{elements.dlt_melements_2}}</td>
+     <td>{{elements.dlt_melements_3}}</td>
+     <td>{{elements.dlt_melements_4}}</td>
+     <td>{{elements.dlt_melements_5}}</td>
+     <td>{{elements.dlt_melements_6}}</td>
+     <td>{{elements.dlt_melements_7}}</td>
+     <td>{{elements.dlt_melements_8}}</td>
+     <td>{{elements.dlt_melements_9}}</td>
+     <td>{{elements.dlt_melements_10}}</td>
+     <td>{{elements.dlt_melements_11}}</td>
+     <td>{{elements.dlt_melements_12}}</td>
+     <td>{{elements.dlt_melements_13}}</td>
+     <td>{{elements.dlt_melements_14}}</td>
+     <td >{{elements.dlt_melements_15}}</td>
+     
+</tr>
+  
+
+ </table>
+ <button type="submit" style="margin:top:20px">SUBMIT
+</button>
+</center>
+
+</form>
+
+<script>
+    const input1 = document.getElementById('input_1');
+    const input2 = document.getElementById('input_2');
+    const input3 = document.getElementById('input_3');
+    const input4 = document.getElementById('input_4');
+    const input5 = document.getElementById('input_5');
+    const input6 = document.getElementById('input_6');
+    const input7 = document.getElementById('input_7');
+    const input8 = document.getElementById('input_8');
+    const input9 = document.getElementById('input_9');
+    const input10 = document.getElementById('input_10');
+    const input11 = document.getElementById('input_11');
+    const input12 = document.getElementById('input_12');
+    const input13 = document.getElementById('input_13');
+    const input14 = document.getElementById('input_14');
+    const input15 = document.getElementById('input_15');
+    const input16 = document.getElementById('input_16');
+    const input17 = document.getElementById('input_17');
+    const input18 = document.getElementById('input_18');
+    const input19 = document.getElementById('input_19');
+    const input20 = document.getElementById('input_20');
+    const input21 = document.getElementById('input_21');
+    const input22 = document.getElementById('input_22');
+    const input23 = document.getElementById('input_23');
+    const input24 = document.getElementById('input_24');
+    const input25 = document.getElementById('input_25');
+    const input26 = document.getElementById('input_26');
+    const input27 = document.getElementById('input_27');
+    const input28 = document.getElementById('input_28');
+    const input29 = document.getElementById('input_29');
+    const input30 = document.getElementById('input_30');
+
+    const checkbox1 = document.getElementById('checkbox_1');
+    const checkbox2 = document.getElementById('checkbox_2');
+    const checkbox3 = document.getElementById('checkbox_3');
+    const checkbox4 = document.getElementById('checkbox_4');
+    const checkbox5 = document.getElementById('checkbox_5');
+    const checkbox6 = document.getElementById('checkbox_6');
+    const checkbox7 = document.getElementById('checkbox_7');
+    const checkbox8 = document.getElementById('checkbox_8');
+    const checkbox9 = document.getElementById('checkbox_9');
+    const checkbox10 = document.getElementById('checkbox_10');
+    const checkbox11 = document.getElementById('checkbox_11');
+    const checkbox12 = document.getElementById('checkbox_12');
+    const checkbox13 = document.getElementById('checkbox_13');
+    const checkbox14 = document.getElementById('checkbox_14');
+    const checkbox15 = document.getElementById('checkbox_15');
+
+    // Add event listener to the checkbox
+    checkbox1.addEventListener('click', function() {
+      if (checkbox1.checked) {
+        input1.disabled = false;
+        input2.disabled = false;
+      } else {
+        input1.disabled = true;
+        input2.disabled = true;
+      }
+    });
+
+    checkbox2.addEventListener('click', function() {
+        if (checkbox2.checked) {
+          input3.disabled = false;
+          input4.disabled = false;
+        } else {
+          input3.disabled = true;
+          input4.disabled = true;
+        }
+    });
+
+    checkbox3.addEventListener('click', function() {
+        if (checkbox3.checked) {
+          input5.disabled = false;
+          input6.disabled = false;
+        } else {
+          input5.disabled = true;
+          input6.disabled = true;
+        }
+    });
+
+    checkbox4.addEventListener('click', function() {
+        if (checkbox4.checked) {
+          input7.disabled = false;
+          input8.disabled = false;
+        } else {
+          input7.disabled = true;
+          input8.disabled = true;
+        }
+    });
+
+    checkbox5.addEventListener('click', function() {
+        if (checkbox5.checked) {
+          input9.disabled = false;
+          input10.disabled = false;
+        } else {
+          input9.disabled = true;
+          input10.disabled = true;
+        }
+    });
+
+    checkbox6.addEventListener('click', function() {
+        if (checkbox6.checked) {
+          input11.disabled = false;
+          input12.disabled = false;
+        } else {
+          input11.disabled = true;
+          input12.disabled = true;
+        }
+    });
+
+    checkbox7.addEventListener('click', function() {
+        if (checkbox7.checked) {
+          input13.disabled = false;
+          input14.disabled = false;
+        } else {
+          input13.disabled = true;
+          input14.disabled = true;
+        }
+    });
+
+    checkbox8.addEventListener('click', function() {
+        if (checkbox8.checked) {
+          input15.disabled = false;
+          input16.disabled = false;
+        } else {
+          input15.disabled = true;
+          input16.disabled = true;
+        }
+    });
+
+    checkbox9.addEventListener('click', function() {
+        if (checkbox9.checked) {
+          input17.disabled = false;
+          input18.disabled = false;
+        } else {
+          input17.disabled = true;
+          input18.disabled = true;
+        }
+    });
+
+    checkbox10.addEventListener('click', function() {
+        if (checkbox10.checked) {
+          input19.disabled = false;
+          input20.disabled = false;
+        } else {
+          input19.disabled = true;
+          input20.disabled = true;
+        }
+    });
+    checkbox11.addEventListener('click', function() {
+        if (checkbox11.checked) {
+          input21.disabled = false;
+          input22.disabled = false;
+        } else {
+          input21.disabled = true;
+          input22.disabled = true;
+        }
+    });
+
+    checkbox12.addEventListener('click', function() {
+        if (checkbox12.checked) {
+          input23.disabled = false;
+          input24.disabled = false;
+        } else {
+          input23.disabled = true;
+          input24.disabled = true;
+        }
+    });
+
+    checkbox13.addEventListener('click', function() {
+        if (checkbox13.checked) {
+          input25.disabled = false;
+          input26.disabled = false;
+        } else {
+          input25.disabled = true;
+          input26.disabled = true;
+        }
+    });
+
+    checkbox14.addEventListener('click', function() {
+        if (checkbox14.checked) {
+          input27.disabled = false;
+          input28.disabled = false;
+        } else {
+          input27.disabled = true;
+          input28.disabled = true;
+        }
+    });
+
+    checkbox15.addEventListener('click', function() {
+        if (checkbox15.checked) {
+          input29.disabled = false;
+          input30.disabled = false;
+        } else {
+          input29.disabled = true;
+          input30.disabled = true;
+        }
+      });
+
+
+
+</script>
+{%endblock%}
